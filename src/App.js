@@ -1,6 +1,6 @@
 
 import './App.css';
-import AuthProvider from "./auth/AuthProvider";
+import {AuthProvider} from "./auth/AuthProvider";
 import MainRouter from "./routers/MainRouter";
 
 function App() {

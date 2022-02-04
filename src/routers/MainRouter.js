@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import { PublicRoute } from "./PublicRoute";
+import PublicRoute from "./PublicRoute";
+import Login  from '../components/Login';
 
 const MainRouter = () => {
     return (
