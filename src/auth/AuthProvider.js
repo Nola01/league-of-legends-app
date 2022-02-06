@@ -5,14 +5,16 @@ const AuthContext = createContext();
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(auth.User | null);
+
     const [loadingAuthState, setLoadingAuthState] = useState(true);
 
     useEffect(() => {
-        auth.onAuthStateChange((user) => {
+        auth.onAuthStateChanged((user)=>{
             setUser(user);
             setLoadingAuthState(false);
         })
-    },[]);
+    }, []);
+
 
     return (
         <AuthContext.Provider
@@ -23,7 +25,7 @@ const AuthProvider = ({children}) => {
                 loadingAuthState
             }}
         >
-            {children}    
+            {children}
         </AuthContext.Provider>
     );
 }
