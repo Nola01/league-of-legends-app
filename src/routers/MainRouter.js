@@ -3,6 +3,8 @@ import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
 import Login  from '../components/Login';
 import Home from '../components/Home';
+import Register from '../components/Register';
+
 
 const MainRouter = () => {
     return (
@@ -12,6 +14,7 @@ const MainRouter = () => {
                 <Route path="/" element = {<PrivateRoute><Home/></PrivateRoute>}> 
                     
                 </Route>
+                <Route path="/register" element={<PublicRoute><Register/></PublicRoute>}/>
             </Routes>
         </BrowserRouter>
     );
