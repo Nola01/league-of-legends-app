@@ -5,7 +5,7 @@ import LoadingPage from '../components/Loading';
 
 
 
-const PrivateRoute = ({ children }) => {
+export const PrivateRoute = ({ children }) => {
 
     const { loggedIn, loadingAuthState } = useContext(AuthContext);
     
@@ -20,5 +20,3 @@ const PrivateRoute = ({ children }) => {
         : <Navigate to="/login" />
 
 }
-
-export default PrivateRoute;

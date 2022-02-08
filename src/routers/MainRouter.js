@@ -1,8 +1,8 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import PublicRoute from './PublicRoute';
-import PrivateRoute from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
+import { PrivateRoute } from './PrivateRoute';
 import Login  from '../components/Login';
-import Home from '../components/Home'
+import Home from '../components/Home';
 
 const MainRouter = () => {
     return (
