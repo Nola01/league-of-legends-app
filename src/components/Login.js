@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -120,13 +121,13 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link component={RouterLink} to="#" variant="body2">
                     He olvidado mi contraseña
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Crear cuenta"}
+                  <Link component={RouterLink} to="/register" variant="body2">
+                    Crear cuenta
                   </Link>
                 </Grid>
               </Grid>
