@@ -1,0 +1,17 @@
+const { loggedIn, user } = useContext(AuthContext);
+
+  const handleLogout = () => {
+      if(loggedIn) {
+        logout();
+      }
+  }
+
+
+  <List>
+            <ListItem button key="Cerrar sesión" onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Cerrar sesión" />
+            </ListItem>     
+          </List>
