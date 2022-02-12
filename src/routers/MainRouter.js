@@ -13,9 +13,8 @@ const MainRouter = () => {
                 <Route path = "/login" element = {<PublicRoute><Login/></PublicRoute>}/>
                 <Route path = "/register" element = {<PublicRoute><Register/></PublicRoute>}/>
 
-                <Route path="/" element = {<PrivateRoute><Home/></PrivateRoute>}> 
+                <Route path="/" element = {<PrivateRoute><Home/></PrivateRoute>}/> 
                     
-                </Route>
             </Routes>
         </BrowserRouter>
     );
