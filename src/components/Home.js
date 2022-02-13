@@ -30,6 +30,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ChatIcon from '@mui/icons-material/Chat';
+import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { AuthContext } from '../auth/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -112,6 +114,14 @@ function Home() {
       }
   }
 
+  const handleHome = () => {
+    navigate('/');
+  }
+
+  const handleNewCharacter = () => {
+    navigate('/new');
+  }
+
   const handleChat = () => {
     navigate('/chat');
   }
@@ -145,12 +155,10 @@ function Home() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              League of Legends App
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            <IconButton color="inherit" onClick={handleHome}>
+              <HomeIcon/>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -168,14 +176,22 @@ function Home() {
             </IconButton>
           </Toolbar>
           <Divider />
+
           <List>
+            <ListItem button key="Añadir Personaje" onClick={handleNewCharacter}>
+              <ListItemIcon>
+                <AddIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Añadir personaje" />
+            </ListItem>   
             <ListItem button key="Chat" onClick={handleChat}>
               <ListItemIcon>
                 <ChatIcon/>
               </ListItemIcon>
               <ListItemText primary="Chat" />
-            </ListItem>     
+            </ListItem>    
           </List>
+          <Divider />
           <List>
             <ListItem button key="Cerrar sesión" onClick={handleLogout}>
               <ListItemIcon>

@@ -10,13 +10,24 @@ import { FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack } from
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
-import MessageBox from './MessageBox';
-
-export default function Chat() {
+export default function NewCharacter() {
 
   return (
-      <div>
-          <MessageBox/>
-      </div>
+      <Container component="main" maxWidth="lg">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <EditIcon />
+          </Avatar>
+          
+        </Box>
+      </Container>
   );
 }
