@@ -32,6 +32,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 import { AuthContext } from '../auth/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -122,6 +123,10 @@ function Home() {
     navigate('/new');
   }
 
+  const handleOwnCharacters = () => {
+    navigate('/own');
+  }
+
   const handleChat = () => {
     navigate('/chat');
   }
@@ -183,7 +188,13 @@ function Home() {
                 <AddIcon/>
               </ListItemIcon>
               <ListItemText primary="Añadir personaje" />
-            </ListItem>   
+            </ListItem>
+            <ListItem button key="Personajes creados" onClick={handleOwnCharacters}>
+              <ListItemIcon>
+                <StarBorderIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Personajes creados" />
+            </ListItem>      
             <ListItem button key="Chat" onClick={handleChat}>
               <ListItemIcon>
                 <ChatIcon/>

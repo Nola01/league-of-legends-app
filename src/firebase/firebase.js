@@ -2,8 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
         ,signOut } from "firebase/auth";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes} from "firebase/storage";
+import { getFirestore, addDoc, collection, onSnapshot } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -46,4 +46,16 @@ const uploadImage = (image) => {
   return uploadBytes(imageRef, image);
 }
 
-export {auth, login, register, logout, addCharacter, uploadImage};
+const getCharacters = (listener) => {
+  return onSnapshot(collection(db, "characters"), listener); 
+}
+
+const getImageUrl = async (imageName) => {
+  try {
+      return await getDownloadURL(ref(storage, 'images/' + imageName));
+  } catch (err) {
+      return '';
+  }
+}
+
+export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl};

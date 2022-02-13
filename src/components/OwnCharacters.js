@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getImageUrl, getCharacters } from '../firebase/firebase';
+
 
 import { names, descriptions } from '../helpers/api';
 
@@ -36,34 +38,26 @@ export default function Characters() {
 
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    const [charNames, setcharnames] = useState([]);
-    const [charDescriptions, setchardescriptions] = useState([]);
+    const [characters, setcharacters] = useState([]);
 
-    const handleDetails = () => {
-      //navigate('/details');
-    }
-
-    
-
-    names.then((names) => setcharnames(names));
-    descriptions.then((descriptions) => setchardescriptions(descriptions));
+    useEffect(() => {
+        getCharacters( async (snapshot)=>{
+            const newCharactersPromise = snapshot.docs.map(async (doc)=> {
+            const imageName = doc.data().image;
+            const url = await getImageUrl(imageName);
+            return {id:doc.id, ...doc.data(), image: url};
+          });
+          const list = await Promise.all(newCharactersPromise);
+          setcharacters(list);
+        });
+      }, [])
 
     //images.then((images) => console.log(images));
-    console.log(charNames);
-    console.log(charDescriptions);
-
-    //const url = '';
-
-    for (let i = 0; i < cards.length; i++) {
-      //url = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${charNames[i]}_0.jpg`
-    }
-
-    const url = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${charNames[1]}_0.jpg`
-
+    console.log(characters);
 
     return (
         <ThemeProvider theme={theme}>
-          <main>
+        <main>
         {/* Hero unit */}
         <Box
           sx={{
@@ -80,10 +74,10 @@ export default function Characters() {
               color="text.primary"
               gutterBottom
             >
-              League of Legends 
+              Mis personajes
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Web con información sobre todos los campeones de League of Legends, donde podrás comentar lo que quieras con otros jugadores y guardar tus propios campeones.
+              Aquí se muestran todos los personajes que has añadido.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -99,26 +93,26 @@ export default function Characters() {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {characters.map((character) => (
+              <Grid item key={character.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                 >
                   <CardMedia
                     component="img"
-                    image={url}
+                    image={character.image && character.image !== '' ? character.image : './public/login_logo.jpg'}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {charNames[1]}
+                      {character.name}
                     </Typography>
                     <Typography>
-                      {charDescriptions[1]}
+                      {character.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleDetails}>Detalles</Button>
+                    <Button size="small">Detalles</Button>
                     <Button size="small">Editar</Button>
                   </CardActions>
                 </Card>
@@ -127,7 +121,7 @@ export default function Characters() {
           </Grid>
           <Copyright sx={{ pt: 4 }} />
         </Container>
-      </main>
+        </main>
         </ThemeProvider>
-      );
+    );
 }
