@@ -2,6 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
         ,signOut } from "firebase/auth";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getStorage, ref, uploadBytes} from "firebase/storage";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYe23tP2MhlkAKpyiC-bhqHLZWNxMMdYg",
@@ -17,6 +20,10 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
+const db = getFirestore();
+
+const storage = getStorage();
+
 const register = (email, password) => {
   return createUserWithEmailAndPassword (auth, email, password);
 }
@@ -29,4 +36,14 @@ const logout = () => {
   return signOut(auth);
 }
 
-export {auth, login, register, logout};
+const addCharacter = (character) => {
+  return addDoc(collection(db, "characters"), character);
+}
+
+const uploadImage = (image) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, `/images/${image.name}`);
+  return uploadBytes(imageRef, image);
+}
+
+export {auth, login, register, logout, addCharacter, uploadImage};

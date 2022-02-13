@@ -39,6 +39,9 @@ export default function Characters() {
     const [charNames, setcharnames] = useState([]);
     const [charDescriptions, setchardescriptions] = useState([]);
 
+    const handleDetails = () => {
+      //navigate('/details');
+    }
 
     names.then((names) => setcharnames(names));
     descriptions.then((descriptions) => setchardescriptions(descriptions));
@@ -113,8 +116,8 @@ export default function Characters() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    <Button size="small" onClick={handleDetails}>Detalles</Button>
+                    <Button size="small">Editar</Button>
                   </CardActions>
                 </Card>
               </Grid>
