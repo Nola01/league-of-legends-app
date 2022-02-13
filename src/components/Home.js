@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -28,6 +29,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ChatIcon from '@mui/icons-material/Chat';
 
 import { AuthContext } from '../auth/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -96,10 +98,11 @@ const mdTheme = createTheme();
 
 function Home() {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const navigate = useNavigate();
 
   const { loggedIn, user } = useContext(AuthContext);
 
@@ -107,6 +110,10 @@ function Home() {
       if(loggedIn) {
         logout();
       }
+  }
+
+  const handleChat = () => {
+    navigate('/chat');
   }
 
   return (
@@ -161,6 +168,14 @@ function Home() {
             </IconButton>
           </Toolbar>
           <Divider />
+          <List>
+            <ListItem button key="Chat" onClick={handleChat}>
+              <ListItemIcon>
+                <ChatIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Chat" />
+            </ListItem>     
+          </List>
           <List>
             <ListItem button key="Cerrar sesión" onClick={handleLogout}>
               <ListItemIcon>
