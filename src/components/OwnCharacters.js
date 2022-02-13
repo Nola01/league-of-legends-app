@@ -100,7 +100,7 @@ export default function Characters() {
                 >
                   <CardMedia
                     component="img"
-                    image={character.image && character.image !== '' ? character.image : './public/login_logo.jpg'}
+                    image={character.image && character.image !== '' ? character.image : 'https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672'}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
