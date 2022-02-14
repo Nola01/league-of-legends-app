@@ -38,8 +38,6 @@ const theme = createTheme();
 
 export default function Characters() {
 
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
     const [charList, setcharlist] = useState([]);
 
     const navigate = useNavigate();
