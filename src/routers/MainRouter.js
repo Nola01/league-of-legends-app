@@ -9,6 +9,7 @@ import Chat from '../components/Chat';
 import NewCharacter from '../components/NewCharacter';
 import OwnCharacters from '../components/OwnCharacters';
 import Details from '../components/Details';
+import Favorites from '../components/Favorites';
 
 
 const MainRouter = () => {
@@ -24,6 +25,7 @@ const MainRouter = () => {
                     <Route path="new" element = {<PrivateRoute><NewCharacter/></PrivateRoute>}/>
                     <Route path="own" element = {<PrivateRoute><OwnCharacters/></PrivateRoute>}/>
                     <Route path="details" element = {<PrivateRoute><Details/></PrivateRoute>}/>
+                    <Route path="favorites" element = {<PrivateRoute><Favorites/></PrivateRoute>}/>
                 </Route> 
             </Routes>
         </BrowserRouter>
