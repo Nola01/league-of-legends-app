@@ -1,3 +1,4 @@
+import './Characters.css'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -108,7 +109,7 @@ export default function Characters() {
               League of Legends 
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Web con información sobre todos los campeones de League of Legends, donde podrás comentar lo que quieras con otros jugadores y guardar tus propios campeones.
+              Web con información sobre todos los campeones de League of Legends, donde podrás guardar los tuyos propios y comentar lo que quieras con otros jugadores.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -121,17 +122,18 @@ export default function Characters() {
             </Stack>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 8 }} maxWidth="0" className='characters'>
           {/* End hero unit */}
           <Grid container spacing={4}>
             {chars.map((character) => (
               <Grid item key={character.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                  className='card'
                 >
                   <CardMedia
                     component="img"
-                    image={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.name}_0.jpg`}
+                    image={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.id}_0.jpg`}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
