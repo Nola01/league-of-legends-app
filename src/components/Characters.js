@@ -41,6 +41,8 @@ export default function Characters() {
 
     const [charList, setcharlist] = useState([]);
 
+    //const [favCharacters, setfavcharacters] = useState([]);
+
     const navigate = useNavigate();
 
     characters.then((characters) => setcharlist(characters));
@@ -58,12 +60,15 @@ export default function Characters() {
 
     const [favIcon, setfavicon] = useState(true);
 
-    const handleDetails = (id) => {
+    const handleDetails = (character) => {
       //navigate('/details');
+      //console.log(character);
     }
 
-    const handleFavorites = () => {
-      //navigate('/favorites')
+    const handleFavorites = (character) => {
+      //const clickFav = [];
+      //clickFav.push(character);
+      //setfavcharacters(clickFav);
       if (favIcon) {
         setfavicon(false);
       } else {
@@ -137,7 +142,7 @@ export default function Characters() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
+                    <Button size="small" onClick={handleDetails(character)}>Detalles</Button>
                     {favIcon ?
                       <Button size="small" onClick={handleFavorites}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
                       :

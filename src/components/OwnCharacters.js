@@ -55,6 +55,16 @@ export default function Characters() {
     //images.then((images) => console.log(images));
     console.log(characters);
 
+    const handleDetails = (id) => {
+      //navigate('/details');
+      console.log(id)
+    }
+
+    const handleDelete = (id) => {
+      //navigate('/details');
+      console.log(id)
+    }
+
     return (
         <ThemeProvider theme={theme}>
         <main>
@@ -112,8 +122,9 @@ export default function Characters() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">Detalles</Button>
+                    <Button size="small" onClick={()=>handleDetails(character.id)}>Detalles</Button>
                     <Button size="small">Editar</Button>
+                    <Button size="small" onClick={()=>handleDelete(character.id)}><DeleteIcon/></Button>
                   </CardActions>
                 </Card>
               </Grid>
