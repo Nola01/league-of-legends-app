@@ -1,6 +1,4 @@
-import './Characters.css'
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -15,11 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getImageUrl, getCharacters } from '../firebase/firebase';
 
-import { characters } from '../helpers/api';
+
+import { names, descriptions } from '../helpers/api';
 
 function Copyright(props) {
   return (
@@ -36,46 +34,30 @@ function Copyright(props) {
   
 const theme = createTheme();
 
-export default function Characters() {
+export default function Details() {
 
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    const [charList, setcharlist] = useState([]);
+    const [characters, setcharacters] = useState([]);
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        getCharacters( async (snapshot)=>{
+            const newCharactersPromise = snapshot.docs.map(async (doc)=> {
+            const imageName = doc.data().image;
+            const url = await getImageUrl(imageName);
+            return {id:doc.id, ...doc.data(), image: url};
+          });
+          const list = await Promise.all(newCharactersPromise);
+          setcharacters(list);
+        });
+      }, [])
 
-    characters.then((characters) => setcharlist(characters));
-
-    
-    //console.log(charList);
-
-    const chars = [];
-    for (const char in charList) {
-      //console.log(charList[char]);
-      chars.push(charList[char]);
-    }
-
-    //console.log(chars);
-
-    const handleDetails = (id) => {
-      //navigate('/details');
-    }
-
-    const handleFavorites = (id) => {
-
-    }
-
-    const showCharacters = () => {
-      navigate('/own');
-    }
-
-    const goChat = () => {
-      navigate('/chat');
-    }
+    //images.then((images) => console.log(images));
+    console.log(characters);
 
     return (
         <ThemeProvider theme={theme}>
-          <main>
+        <main>
         {/* Hero unit */}
         <Box
           sx={{
@@ -92,10 +74,10 @@ export default function Characters() {
               color="text.primary"
               gutterBottom
             >
-              League of Legends 
+              Mis personajes
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Web con información sobre todos los campeones de League of Legends, donde podrás guardar los tuyos propios y comentar lo que quieras con otros jugadores.
+              Aquí se muestran todos los personajes que has añadido.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -103,23 +85,22 @@ export default function Characters() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained" onClick={showCharacters}>Ver mis campeones</Button>
-              <Button variant="outlined" onClick={goChat}>Ir a comentarios</Button>
+              <Button variant="contained">Ver campeones</Button>
+              <Button variant="outlined">Ir a comentarios</Button>
             </Stack>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="0" className='characters'>
+        <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {chars.map((character) => (
+            {characters.map((character) => (
               <Grid item key={character.id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  className='card'
                 >
                   <CardMedia
                     component="img"
-                    image={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.id}_0.jpg`}
+                    image={character.image && character.image !== '' ? character.image : 'https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672'}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
@@ -127,12 +108,12 @@ export default function Characters() {
                       {character.name}
                     </Typography>
                     <Typography>
-                      {character.title}
+                      {character.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    <Button size="small" onClick={handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
+                    <Button size="small">Detalles</Button>
+                    <Button size="small">Editar</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -140,7 +121,7 @@ export default function Characters() {
           </Grid>
           <Copyright sx={{ pt: 4 }} />
         </Container>
-      </main>
+        </main>
         </ThemeProvider>
-      );
+    );
 }
