@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { characters } from '../helpers/api';
+import { characters, getCharacterById } from '../helpers/api';
 
 function Copyright(props) {
   return (
@@ -40,8 +40,8 @@ const theme = createTheme();
 export default function Characters() {
 
     const [charList, setcharlist] = useState([]);
+    const [favCharacters, setfavcharacters] = useState([]);
 
-    //const [favCharacters, setfavcharacters] = useState([]);
 
     const navigate = useNavigate();
 
@@ -58,25 +58,26 @@ export default function Characters() {
 
     //console.log(chars);
 
-    const [favIcon, setfavicon] = useState(true);
+    const [favIcon, setfavicon] = useState(false);
 
-    const handleDetails = (character) => {
+    const handleDetails = (id) => {
       //navigate('/details');
       //console.log(character);
     }
 
-    const handleFavorites = (character) => {
-      //const clickFav = [];
-      //clickFav.push(character);
-      //setfavcharacters(clickFav);
+    const handleFavorites = (id) => {
+      /*
       if (favIcon) {
         setfavicon(false);
       } else {
+        getCharacterById(id).then(character => setfavcharacters(character))
+        console.log(favCharacters)
         setfavicon(true);
       }
+      */
     }
 
-    const showCharacters = () => {
+    const showOwnCharacters = () => {
       navigate('/own');
     }
 
@@ -114,7 +115,7 @@ export default function Characters() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained" onClick={showCharacters}>Ver mis campeones</Button>
+              <Button variant="contained" onClick={showOwnCharacters}>Ver mis campeones</Button>
               <Button variant="outlined" onClick={goChat}>Ir a comentarios</Button>
             </Stack>
           </Container>
@@ -142,11 +143,11 @@ export default function Characters() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleDetails(character)}>Detalles</Button>
+                    <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
                     {favIcon ?
-                      <Button size="small" onClick={handleFavorites}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
+                      <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
-                      <Button size="small" onClick={handleFavorites}><FavoriteIcon sx={{ color: red[500] }}/></Button>
+                      <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
                     }
                   </CardActions>
                 </Card>
@@ -159,3 +160,5 @@ export default function Characters() {
         </ThemeProvider>
       );
 }
+
+

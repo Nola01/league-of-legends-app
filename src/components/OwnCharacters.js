@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -14,10 +15,11 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getImageUrl, getCharacters } from '../firebase/firebase';
+import { getImageUrl, getCharacters, deleteCharacterById } from '../firebase/firebase';
 
 
 import { names, descriptions } from '../helpers/api';
+import { NavigateBefore } from '@mui/icons-material';
 
 function Copyright(props) {
   return (
@@ -34,11 +36,13 @@ function Copyright(props) {
   
 const theme = createTheme();
 
-export default function Characters() {
+export default function OwnCharacters() {
 
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     const [characters, setcharacters] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCharacters( async (snapshot)=>{
@@ -61,8 +65,15 @@ export default function Characters() {
     }
 
     const handleDelete = (id) => {
-      //navigate('/details');
-      console.log(id)
+      deleteCharacterById(id);
+    }
+
+    const showAllCharacters = () => {
+      navigate('/')
+    }
+
+    const goChat = () => {
+      navigate('/chat');
     }
 
     return (
@@ -95,8 +106,8 @@ export default function Characters() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Ver todos los campeones</Button>
-              <Button variant="outlined">Ir a comentarios</Button>
+              <Button variant="contained" onClick={showAllCharacters}>Ver todos los campeones</Button>
+              <Button variant="outlined" onClick={goChat}>Ir a comentarios</Button>
             </Stack>
           </Container>
         </Box>

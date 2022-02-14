@@ -39,7 +39,7 @@ export default function NewCharacter() {
             }
             await addCharacter(doc);
             console.log('Personaje añadido');
-            navigate('/');
+            navigate('/own');
           } catch (error) {
             //TODO Muchos errores posibles por tratar.
             console.log(error)

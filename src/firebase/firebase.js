@@ -2,8 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
         ,signOut } from "firebase/auth";
-import { getFirestore, addDoc, collection, onSnapshot } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -58,4 +58,13 @@ const getImageUrl = async (imageName) => {
   }
 }
 
-export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl};
+const deleteCharacterById = async (id) => {
+  const charRef = doc(db, 'characters', id);
+  const charDoc = await getDoc(charRef);
+  const character = charDoc.data();
+  await deleteDoc(charRef);
+  const imageRef = ref(storage, 'images/' + character.image);
+  await deleteObject(imageRef);
+}
+
+export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById};
