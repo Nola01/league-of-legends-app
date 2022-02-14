@@ -33,6 +33,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { AuthContext } from '../auth/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -127,6 +128,10 @@ function Home() {
     navigate('/own');
   }
 
+  const handleFavCharacters = () => {
+    navigate('/favorites');
+  }
+
   const handleChat = () => {
     navigate('/chat');
   }
@@ -194,7 +199,13 @@ function Home() {
                 <StarBorderIcon/>
               </ListItemIcon>
               <ListItemText primary="Personajes creados" />
-            </ListItem>      
+            </ListItem>  
+            <ListItem button key="Favoritos" onClick={handleFavCharacters}>
+              <ListItemIcon>
+                <FavoriteIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Favoritos" />
+            </ListItem>       
             <ListItem button key="Chat" onClick={handleChat}>
               <ListItemIcon>
                 <ChatIcon/>

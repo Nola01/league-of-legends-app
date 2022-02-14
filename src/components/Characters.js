@@ -59,8 +59,8 @@ export default function Characters() {
       //navigate('/details');
     }
 
-    const handleFavorites = (id) => {
-      
+    const handleFavorites = () => {
+      navigate('/favorites')
     }
 
     const showCharacters = () => {
@@ -130,7 +130,7 @@ export default function Characters() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    <Button size="small" onClick={handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
+                    <Button size="small"><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
                   </CardActions>
                 </Card>
               </Grid>
