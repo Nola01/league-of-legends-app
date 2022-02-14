@@ -16,6 +16,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -55,12 +56,19 @@ export default function Characters() {
 
     //console.log(chars);
 
+    const [favIcon, setfavicon] = useState(true);
+
     const handleDetails = (id) => {
       //navigate('/details');
     }
 
     const handleFavorites = () => {
-      navigate('/favorites')
+      //navigate('/favorites')
+      if (favIcon) {
+        setfavicon(false);
+      } else {
+        setfavicon(true);
+      }
     }
 
     const showCharacters = () => {
@@ -130,7 +138,11 @@ export default function Characters() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    <Button size="small"><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
+                    {favIcon ?
+                      <Button size="small" onClick={handleFavorites}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
+                      :
+                      <Button size="small" onClick={handleFavorites}><FavoriteIcon sx={{ color: red[500] }}/></Button>
+                    }
                   </CardActions>
                 </Card>
               </Grid>
