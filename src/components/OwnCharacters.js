@@ -85,7 +85,7 @@ export default function Characters() {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained">Ver campeones</Button>
+              <Button variant="contained">Ver todos los campeones</Button>
               <Button variant="outlined">Ir a comentarios</Button>
             </Stack>
           </Container>

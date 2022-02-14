@@ -60,7 +60,7 @@ export default function Characters() {
     }
 
     const handleFavorites = (id) => {
-
+      
     }
 
     const showCharacters = () => {
