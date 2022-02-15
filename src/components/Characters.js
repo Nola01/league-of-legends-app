@@ -1,5 +1,5 @@
 import './Characters.css'
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { characters, getCharacterById } from '../helpers/api';
+import { characters } from '../helpers/api';
 import { FavContext } from '../context/FavProvider';
 
 function Copyright(props) {
@@ -67,7 +67,7 @@ export default function Characters() {
     }
 
     const handleFavorites = (id) => {
-      console.log(id);
+      //console.log(id);
       if (favIcon) {
         setfavicon(false);
       } else {
@@ -75,8 +75,11 @@ export default function Characters() {
       }
       if (! favCharacters.includes(id)) {
         setfavcharacters(...[favCharacters], favCharacters.push(id))
+      } else {
+        const index = favCharacters.indexOf(id);
+        setfavcharacters(...[favCharacters], favCharacters.splice(index, 1))
       }
-      console.log(favCharacters)      
+      //console.log(favCharacters)      
     }
 
     const showOwnCharacters = () => {
