@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -18,8 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getImageUrl, getCharacters, deleteCharacterById } from '../firebase/firebase';
 
 
-import { names, descriptions } from '../helpers/api';
-import { NavigateBefore } from '@mui/icons-material';
+import { AuthContext } from '../context/AuthProvider';
 
 function Copyright(props) {
   return (
@@ -38,7 +38,7 @@ const theme = createTheme();
 
 export default function OwnCharacters() {
 
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const { user } = useContext(AuthContext);
 
     const [characters, setcharacters] = useState([]);
 
@@ -122,28 +122,32 @@ export default function OwnCharacters() {
           <Grid container spacing={4}>
             {characters.map((character) => (
               <Grid item key={character.id} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <CardMedia
-                    component="img"
-                    image={character.image && character.image !== '' ? character.image : 'https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672'}
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {character.name}
-                    </Typography>
-                    <Typography>
-                      {character.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" onClick={()=>handleDetails(character.id)}>Detalles</Button>
-                    <Button size="small">Editar</Button>
-                    <Button size="small" onClick={()=>handleDelete(character.id)}><DeleteIcon/></Button>
-                  </CardActions>
-                </Card>
+                {user.uid == character.uid ?
+                  <Card
+                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={character.image && character.image !== '' ? character.image : 'https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672'}
+                      alt="random"
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {character.name}
+                      </Typography>
+                      <Typography>
+                        {character.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small" onClick={()=>handleDetails(character.id)}>Detalles</Button>
+                      <Button size="small">Editar</Button>
+                      <Button size="small" onClick={()=>handleDelete(character.id)}><DeleteIcon/></Button>
+                    </CardActions>
+                  </Card>
+                  :
+                  <Grid></Grid>
+                }
               </Grid>
             ))}
           </Grid>

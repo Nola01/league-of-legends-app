@@ -10,12 +10,17 @@ import { FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack } from
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import useForm from '../hooks/useForm';
+import { useContext } from 'react';
 
 import { addCharacter, uploadImage } from '../firebase/firebase';
+import { AuthContext } from '../context/AuthProvider';
 
 export default function NewCharacter() {
 
+    const { user } = useContext(AuthContext);
+
     const initialValues = {
+        uid: "",
         name: "",
         category: "",
         description : "",
@@ -34,6 +39,7 @@ export default function NewCharacter() {
           try {
             const image = await uploadImage(values.image[0]);
             const doc = {
+              uid : user.uid,
               name: values.name,
               category: values.category,
               description: values.description,
