@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useContext } from 'react';
 import { login } from '../firebase/firebase';
-import { AuthContext } from "../auth/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 
 function Copyright(props) {
   return (

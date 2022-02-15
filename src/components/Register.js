@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
 
-import { AuthContext } from "../auth/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 import { register } from '../firebase/firebase';
 
 function Copyright(props) {

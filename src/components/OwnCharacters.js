@@ -57,7 +57,7 @@ export default function OwnCharacters() {
       }, [])
 
     //images.then((images) => console.log(images));
-    console.log(characters);
+    //console.log(characters);
 
     const handleDetails = (id) => {
       //navigate('/details');
@@ -65,7 +65,13 @@ export default function OwnCharacters() {
     }
 
     const handleDelete = (id) => {
-      deleteCharacterById(id);
+      try {
+        deleteCharacterById(id);
+        console.log("Personaje borrado", id);
+      } catch (error) {
+        console.log("Error al borrar personaje");
+      }
+      
     }
 
     const showAllCharacters = () => {

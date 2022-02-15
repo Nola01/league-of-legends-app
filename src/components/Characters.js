@@ -1,5 +1,5 @@
 import './Characters.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -21,6 +21,7 @@ import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { characters, getCharacterById } from '../helpers/api';
+import { FavContext } from '../context/FavProvider';
 
 function Copyright(props) {
   return (
@@ -40,14 +41,14 @@ const theme = createTheme();
 export default function Characters() {
 
     const [charList, setcharlist] = useState([]);
-    const [favCharacters, setfavcharacters] = useState([]);
+    const {favCharacters, setfavcharacters} = useContext(FavContext);
+    //const favCharacters = [];
 
 
     const navigate = useNavigate();
 
     characters.then((characters) => setcharlist(characters));
 
-    
     //console.log(charList);
 
     const chars = [];
@@ -66,15 +67,16 @@ export default function Characters() {
     }
 
     const handleFavorites = (id) => {
-      /*
+      console.log(id);
       if (favIcon) {
         setfavicon(false);
       } else {
-        getCharacterById(id).then(character => setfavcharacters(character))
-        console.log(favCharacters)
         setfavicon(true);
       }
-      */
+      if (! favCharacters.includes(id)) {
+        setfavcharacters(...[favCharacters], favCharacters.push(id))
+      }
+      console.log(favCharacters)      
     }
 
     const showOwnCharacters = () => {
@@ -131,7 +133,7 @@ export default function Characters() {
                 >
                   <CardMedia
                     component="img"
-                    image={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.id}_0.jpg`}
+                    image={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.id}_0.jpg`}
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
@@ -144,7 +146,7 @@ export default function Characters() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    {favIcon ?
+                    {favCharacters.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>

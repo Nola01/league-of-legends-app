@@ -35,7 +35,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { AuthContext } from '../auth/AuthProvider';
+import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../firebase/firebase';
 
 

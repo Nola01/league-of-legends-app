@@ -1,12 +1,15 @@
 
 import './App.css';
-import {AuthProvider} from "./auth/AuthProvider";
+import {AuthProvider} from "./context/AuthProvider";
+import { FavProvider } from './context/FavProvider';
 import MainRouter from "./routers/MainRouter";
 
 function App() {
   return (
     <AuthProvider>
-      <MainRouter/>
+      <FavProvider>
+        <MainRouter/>
+      </FavProvider>
     </AuthProvider>
   );
 }

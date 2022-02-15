@@ -26,6 +26,8 @@ export default function NewCharacter() {
 
     const navigate = useNavigate();
 
+    //const defaultImage = new File(["default.jpg"], "default.jpg", {type:"file"});
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (isValid()) {
@@ -39,6 +41,9 @@ export default function NewCharacter() {
             }
             await addCharacter(doc);
             console.log('Personaje añadido');
+            //console.log(values.image[0])
+            //console.log(values.image[0].name)
+            //console.log(defaultImage.name)
             navigate('/own');
           } catch (error) {
             //TODO Muchos errores posibles por tratar.
