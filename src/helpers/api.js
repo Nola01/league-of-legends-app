@@ -24,6 +24,7 @@ async function getCharacterById (id) {
                 return character;
             }
           }
+        
     } catch (err) {
         console.log(err);
     }

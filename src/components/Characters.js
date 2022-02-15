@@ -1,5 +1,5 @@
 import './Characters.css'
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -20,8 +20,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { characters } from '../helpers/api';
+import { uploadImage, addFavCharacter, getFavCharacters, getImageUrl } from '../firebase/firebase';
+import { characters, getCharacterById } from '../helpers/api';
 import { FavContext } from '../context/FavProvider';
+import { AuthContext } from '../context/AuthProvider';
 
 function Copyright(props) {
   return (
@@ -41,11 +43,34 @@ const theme = createTheme();
 export default function Characters() {
 
     const [charList, setcharlist] = useState([]);
-    const {favCharacters, setfavcharacters} = useContext(FavContext);
+    const [favCharactersNames, setfavcharactersnames] = useState([]);
+    const { user } = useContext(AuthContext);
+
+    const [favCharList, setfavcharlist] = useState([]);
+
+    useEffect(() => {
+      getFavCharacters( async (snapshot)=>{
+          const newCharactersPromise = snapshot.docs.map(async (doc)=> {
+          const imageName = doc.data().image;
+          const url = await getImageUrl(imageName);
+          return {id:doc.id, ...doc.data(), image: url};
+        });
+        const list = await Promise.all(newCharactersPromise);
+        setfavcharlist(list);
+      });
+    }, [])
+
     //const favCharacters = [];
 
-
     const navigate = useNavigate();
+
+    const initialValues = {
+      uid: "",
+      name: "",
+      category: "",
+      description : "",
+      image : ""
+    }
 
     characters.then((characters) => setcharlist(characters));
 
@@ -73,13 +98,101 @@ export default function Characters() {
       } else {
         setfavicon(true);
       }
-      if (! favCharacters.includes(id)) {
-        setfavcharacters(...[favCharacters], favCharacters.push(id))
+      if (! favCharactersNames.includes(id)) {
+        setfavcharactersnames(...[favCharactersNames], favCharactersNames.push(id))
+        //addFavorites();
       } else {
-        const index = favCharacters.indexOf(id);
-        setfavcharacters(...[favCharacters], favCharacters.splice(index, 1))
+        const index = favCharactersNames.indexOf(id);
+        setfavcharactersnames(...[favCharactersNames], favCharactersNames.splice(index, 1))
+        //removeFavorites();
       }
-      //console.log(favCharacters)      
+      console.log(favCharList)
+      console.log(favCharactersNames)      
+    }
+
+
+    const addFavorites = async () => {
+      favCharactersNames.forEach((id) => {
+        for (let i = 0; i < favCharactersNames.length; i++) {
+          if (!favCharList.includes(favCharactersNames[i].name)){
+            getCharacterById(id).then((character) => {
+              console.log(character)
+              let category = '';
+              switch(character.tags[0]) {
+                case 'Mage':
+                  category = 'Mago';
+                  break;
+                case 'Assassin':
+                  category = 'Asesino';
+                  break;
+                case  'Tank':
+                  category = 'Tanque';
+                  break;
+                case 'Support':
+                  category = 'Soporte';
+                  break;
+                case 'Marksman':
+                  category = 'Tirador';
+              }
+              try {
+                //uploadImage(character.image.full).then(() => console.log("Imagen subida"));
+                const doc = {
+                  uid : user.uid,
+                  name: character.name,
+                  category: category,
+                  description: character.blurb,
+                  image: character.name
+                }
+                addFavCharacter(doc).then(() => console.log('Personaje añadido'));
+              } catch (error) {
+                console.log(error)
+              }
+            }); 
+          } else {
+            console.log("El personaje ya esta añadido a favoritos");
+          }
+        }
+        
+      })
+    }
+
+    const removeFavorites = async () => {
+      favCharactersNames.forEach((id) => {
+        getCharacterById(id).then((character) => {
+          console.log(character)
+          let category = 0;
+          switch(character.tags) {
+            case 'Mage':
+              category = 1;
+              break;
+            case 'Assassin':
+              category = 2;
+              break;
+            case  'Tank':
+              category = 3;
+              break;
+            case 'Support':
+              category = 4;
+              break;
+            case 'Marksman':
+              category = 5
+          }
+          try {
+            uploadImage(character.image.full).then(() => console.log("Imagen subida"));
+            const doc = {
+              uid : user.uid,
+              name: character.name,
+              category: category,
+              description: character.blurb,
+              image: character.image.full
+            }
+            addFavCharacter(doc).then(() => console.log('Personaje añadido'));
+          } catch (error) {
+            console.log(error)
+          }
+          });  
+    
+      })
     }
 
     const showOwnCharacters = () => {
@@ -149,7 +262,7 @@ export default function Characters() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    {favCharacters.includes(character.id) ?
+                    {favCharactersNames.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>

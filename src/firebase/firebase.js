@@ -50,6 +50,14 @@ const getCharacters = (listener) => {
   return onSnapshot(collection(db, "characters"), listener); 
 }
 
+const getFavCharacters = (listener) => {
+  return onSnapshot(collection(db, "favorites"), listener); 
+}
+
+const addFavCharacter = (character) => {
+  return addDoc(collection(db, "favorites"), character);
+}
+
 const getImageUrl = async (imageName) => {
   try {
       return await getDownloadURL(ref(storage, 'images/' + imageName));
@@ -67,4 +75,13 @@ const deleteCharacterById = async (id) => {
   await deleteObject(imageRef);
 }
 
-export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById};
+const deleteFavCharacterById = async (id) => {
+  const charRef = doc(db, 'favorites', id);
+  const charDoc = await getDoc(charRef);
+  const character = charDoc.data();
+  await deleteDoc(charRef);
+  const imageRef = ref(storage, 'images/' + character.image);
+  await deleteObject(imageRef);
+}
+
+export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById};
