@@ -22,7 +22,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { uploadImage, addFavCharacter, getFavCharacters, getImageUrl, deleteFavCharacterById } from '../firebase/firebase';
 import { characters, getCharacterById } from '../helpers/api';
-import { FavContext } from '../context/FavProvider';
 import { AuthContext } from '../context/AuthProvider';
 
 function Copyright(props) {

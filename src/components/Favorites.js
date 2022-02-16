@@ -21,7 +21,6 @@ import { getImageUrl, getFavCharacters, deleteFavCharacterById } from '../fireba
 
 
 import { AuthContext } from '../context/AuthProvider';
-import { FavContext } from '../context/FavProvider';
 
 function Copyright(props) {
   return (
@@ -41,7 +40,6 @@ const theme = createTheme();
 export default function OwnCharacters() {
 
     const { user } = useContext(AuthContext);
-    const { favCharacters } = useContext(FavContext);
 
     const [characters, setcharacters] = useState([]);
 
@@ -76,7 +74,6 @@ export default function OwnCharacters() {
     }
 
     const handleEdit = (id) => {
-      console.log(favCharacters)
       console.log(id)
     }
 
