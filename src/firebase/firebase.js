@@ -80,8 +80,8 @@ const deleteFavCharacterById = async (id) => {
   const charDoc = await getDoc(charRef);
   const character = charDoc.data();
   await deleteDoc(charRef);
-  const imageRef = ref(storage, 'images/' + character.image);
-  await deleteObject(imageRef);
+  //const imageRef = ref(storage, 'images/' + character.image);
+  //await deleteObject(imageRef);
 }
 
 export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById};

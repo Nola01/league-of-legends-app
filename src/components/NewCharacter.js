@@ -109,9 +109,10 @@ export default function NewCharacter() {
                     >
                     <MenuItem value={1}>Mago</MenuItem>
                     <MenuItem value={2}>Asesino</MenuItem>
-                    <MenuItem value={3}>Tanque</MenuItem>
-                    <MenuItem value={4}>Soporte</MenuItem>
-                    <MenuItem value={5}>Tirador</MenuItem>
+                    <MenuItem value={3}>Luchador</MenuItem>
+                    <MenuItem value={4}>Tanque</MenuItem>
+                    <MenuItem value={5}>Soporte</MenuItem>
+                    <MenuItem value={6}>Tirador</MenuItem>
                 </Select>
                 {errors['category'] && <FormHelperText>{errors['category']}</FormHelperText>}
             </FormControl>

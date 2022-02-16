@@ -20,7 +20,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { uploadImage, addFavCharacter, getFavCharacters, getImageUrl } from '../firebase/firebase';
+import { uploadImage, addFavCharacter, getFavCharacters, getImageUrl, deleteFavCharacterById } from '../firebase/firebase';
 import { characters, getCharacterById } from '../helpers/api';
 import { FavContext } from '../context/FavProvider';
 import { AuthContext } from '../context/AuthProvider';
@@ -42,11 +42,14 @@ const theme = createTheme();
 
 export default function Characters() {
 
+    const [firebaseFavCharList, setfavcharlist] = useState([]);
+    const firebaseFavListNames = [];
+    firebaseFavCharList.forEach((character) => {
+      firebaseFavListNames.push(character.name)
+    })
     const [charList, setcharlist] = useState([]);
-    const [favCharactersNames, setfavcharactersnames] = useState([]);
+    const [favCharactersNames, setfavcharactersnames] = useState(firebaseFavListNames);
     const { user } = useContext(AuthContext);
-
-    const [favCharList, setfavcharlist] = useState([]);
 
     useEffect(() => {
       getFavCharacters( async (snapshot)=>{
@@ -57,8 +60,15 @@ export default function Characters() {
         });
         const list = await Promise.all(newCharactersPromise);
         setfavcharlist(list);
+        
       });
     }, [])
+
+    
+
+    
+
+    
 
     //const favCharacters = [];
 
@@ -98,100 +108,81 @@ export default function Characters() {
       } else {
         setfavicon(true);
       }
+      
       if (! favCharactersNames.includes(id)) {
         setfavcharactersnames(...[favCharactersNames], favCharactersNames.push(id))
-        //addFavorites();
+        addFavorites();
       } else {
         const index = favCharactersNames.indexOf(id);
+        removeFavorites();
         setfavcharactersnames(...[favCharactersNames], favCharactersNames.splice(index, 1))
-        //removeFavorites();
       }
-      console.log(favCharList)
-      console.log(favCharactersNames)      
+      //console.log(firebaseFavListNames)
+      //console.log(favCharactersNames)      
     }
 
 
     const addFavorites = async () => {
       favCharactersNames.forEach((id) => {
-        for (let i = 0; i < favCharactersNames.length; i++) {
-          if (!favCharList.includes(favCharactersNames[i].name)){
-            getCharacterById(id).then((character) => {
-              console.log(character)
-              let category = '';
-              switch(character.tags[0]) {
-                case 'Mage':
-                  category = 'Mago';
-                  break;
-                case 'Assassin':
-                  category = 'Asesino';
-                  break;
-                case  'Tank':
-                  category = 'Tanque';
-                  break;
-                case 'Support':
-                  category = 'Soporte';
-                  break;
-                case 'Marksman':
-                  category = 'Tirador';
+        if (!firebaseFavListNames.includes(id)){
+          console.log(id)
+          getCharacterById(id).then((character) => {
+            console.log(character)
+            let category = '';
+            switch(character.tags[0]) {
+              case 'Mage':
+                category = 'Mago';
+                break;
+              case 'Assassin':
+                category = 'Asesino';
+                break;
+              case  'Tank':
+                category = 'Tanque';
+                break;
+              case 'Support':
+                category = 'Soporte';
+                break;
+              case 'Marksman':
+                category = 'Tirador';
+                break;
+              case 'Fighter':
+                category = 'Luchador';
+                break;
+              default:
+                category = 'Desconocido';  
+            }
+            try {
+              //uploadImage(character.image.full).then(() => console.log("Imagen subida"));
+              const doc = {
+                uid : user.uid,
+                name: character.name,
+                category: category,
+                description: character.blurb,
+                image: character.name
               }
-              try {
-                //uploadImage(character.image.full).then(() => console.log("Imagen subida"));
-                const doc = {
-                  uid : user.uid,
-                  name: character.name,
-                  category: category,
-                  description: character.blurb,
-                  image: character.name
-                }
-                addFavCharacter(doc).then(() => console.log('Personaje añadido'));
-              } catch (error) {
-                console.log(error)
-              }
-            }); 
-          } else {
-            console.log("El personaje ya esta añadido a favoritos");
-          }
-        }
-        
+              addFavCharacter(doc).then(() => console.log('Personaje añadido'));
+            } catch (error) {
+              console.log("Error al guardar personaje");
+            }
+          }); 
+        } else {
+          console.log("El personaje ya esta añadido a favoritos");
+        } 
       })
     }
 
     const removeFavorites = async () => {
       favCharactersNames.forEach((id) => {
-        getCharacterById(id).then((character) => {
-          console.log(character)
-          let category = 0;
-          switch(character.tags) {
-            case 'Mage':
-              category = 1;
-              break;
-            case 'Assassin':
-              category = 2;
-              break;
-            case  'Tank':
-              category = 3;
-              break;
-            case 'Support':
-              category = 4;
-              break;
-            case 'Marksman':
-              category = 5
-          }
+        if (firebaseFavListNames.includes(id)){
           try {
-            uploadImage(character.image.full).then(() => console.log("Imagen subida"));
-            const doc = {
-              uid : user.uid,
-              name: character.name,
-              category: category,
-              description: character.blurb,
-              image: character.image.full
-            }
-            addFavCharacter(doc).then(() => console.log('Personaje añadido'));
+            deleteFavCharacterById(id);
+            console.log("Personaje borrado", id);
           } catch (error) {
-            console.log(error)
+            console.log("Error al borrar personaje");
           }
-          });  
-    
+        } else {
+          console.log("El personaje no se encuentra en la base de datos");
+        } 
       })
     }
 
@@ -262,7 +253,7 @@ export default function Characters() {
                   </CardContent>
                   <CardActions>
                     <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
-                    {favCharactersNames.includes(character.id) ?
+                    {favCharactersNames.includes(character.id) && firebaseFavListNames.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
