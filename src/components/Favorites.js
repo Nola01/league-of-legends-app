@@ -50,9 +50,7 @@ export default function OwnCharacters() {
     useEffect(() => {
         getFavCharacters( async (snapshot)=>{
             const newCharactersPromise = snapshot.docs.map(async (doc)=> {
-            const imageName = doc.data().image;
-            const url = await getImageUrl(imageName);
-            return {id:doc.id, ...doc.data(), image: url};
+            return {id:doc.id, ...doc.data()};
           });
           const list = await Promise.all(newCharactersPromise);
           setcharacters(list);

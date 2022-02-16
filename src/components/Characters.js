@@ -50,9 +50,7 @@ export default function Characters() {
     useEffect(() => {
       getFavCharacters( async (snapshot)=>{
           const newCharactersPromise = snapshot.docs.map(async (doc)=> {
-          const imageName = doc.data().image;
-          const url = await getImageUrl(imageName);
-          return {id:doc.id, ...doc.data(), image: url};
+          return {id:doc.id, ...doc.data()};
         });
         const list = await Promise.all(newCharactersPromise);
         setfavcharlist(list);
@@ -72,14 +70,6 @@ export default function Characters() {
     //const favCharacters = [];
 
     const navigate = useNavigate();
-
-    const initialValues = {
-      uid: "",
-      name: "",
-      category: "",
-      description : "",
-      image : ""
-    }
 
     characters.then((characters) => setcharlist(characters));
 
@@ -151,7 +141,6 @@ export default function Characters() {
                 category = 'Desconocido';  
             }
             try {
-              //uploadImage(character.image.full).then(() => console.log("Imagen subida"));
               const doc = {
                 uid : user.uid,
                 name: character.name,
