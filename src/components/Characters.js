@@ -43,12 +43,8 @@ const theme = createTheme();
 export default function Characters() {
 
     const [firebaseFavCharList, setfavcharlist] = useState([]);
-    const firebaseFavListNames = [];
-    firebaseFavCharList.forEach((character) => {
-      firebaseFavListNames.push(character.name)
-    })
     const [charList, setcharlist] = useState([]);
-    const [favCharactersNames, setfavcharactersnames] = useState(firebaseFavListNames);
+    const [favCharactersNames, setfavcharactersnames] = useState([]);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -64,7 +60,10 @@ export default function Characters() {
       });
     }, [])
 
-    
+    const firebaseFavListNames = [];
+    firebaseFavCharList.forEach((character) => {
+      firebaseFavListNames.push(character.name)
+    })
 
     
 
@@ -157,8 +156,9 @@ export default function Characters() {
                 uid : user.uid,
                 name: character.name,
                 category: category,
+                title: character.title,
                 description: character.blurb,
-                image: character.name
+                image: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.id}_0.jpg`
               }
               addFavCharacter(doc).then(() => console.log('Personaje añadido'));
             } catch (error) {

@@ -65,6 +65,7 @@ export default function OwnCharacters() {
     }
 
     const handleDelete = (id) => {
+      console.log(id)
       try {
         deleteCharacterById(id);
         console.log("Personaje borrado", id);

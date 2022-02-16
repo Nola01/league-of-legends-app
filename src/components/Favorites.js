@@ -15,8 +15,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import InfoIcon from '@mui/icons-material/Info';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getImageUrl, getCharacters, deleteCharacterById } from '../firebase/firebase';
+import { getImageUrl, getFavCharacters, deleteFavCharacterById } from '../firebase/firebase';
 
 
 import { AuthContext } from '../context/AuthProvider';
@@ -47,7 +48,7 @@ export default function OwnCharacters() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCharacters( async (snapshot)=>{
+        getFavCharacters( async (snapshot)=>{
             const newCharactersPromise = snapshot.docs.map(async (doc)=> {
             const imageName = doc.data().image;
             const url = await getImageUrl(imageName);
@@ -67,6 +68,16 @@ export default function OwnCharacters() {
     }
 
     const handleDelete = (id) => {
+      console.log(id)
+      try {
+        //deleteFavCharacterById(id);
+        console.log("Personaje borrado", id);
+      } catch (error) {
+        console.log("Error al borrar personaje");
+      }
+    }
+
+    const handleEdit = (id) => {
       console.log(favCharacters)
       console.log(id)
     }
@@ -98,10 +109,10 @@ export default function OwnCharacters() {
               color="text.primary"
               gutterBottom
             >
-              Mis personajes
+              Favoritos
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Aquí se muestran todos los personajes que has añadido.
+              Aquí se muestran todos los personajes que has marcado como favoritos.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -125,7 +136,7 @@ export default function OwnCharacters() {
                   >
                     <CardMedia
                       component="img"
-                      image={character.image && character.image !== '' ? character.image : 'https://pentagram-production.imgix.net/cc7fa9e7-bf44-4438-a132-6df2b9664660/EMO_LOL_02.jpg?rect=0%2C0%2C1440%2C1512&w=640&crop=1&fm=jpg&q=70&auto=format&fit=crop&h=672'}
+                      image={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${character.name}_0.jpg`}
                       alt="random"
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
@@ -133,12 +144,12 @@ export default function OwnCharacters() {
                         {character.name}
                       </Typography>
                       <Typography>
-                        {character.description}
+                        {character.title}
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" onClick={()=>handleDetails(character.name)}>Detalles</Button>
-                      <Button size="small">Editar</Button>
+                      <Button size="small" onClick={()=>handleDetails(character.name)}><InfoIcon/></Button>
+                      <Button size="small" onClick={()=>handleEdit(character.name)}><EditIcon/></Button>
                       <Button size="small" onClick={()=>handleDelete(character.name)}><DeleteIcon/></Button>
                     </CardActions>
                   </Card>
