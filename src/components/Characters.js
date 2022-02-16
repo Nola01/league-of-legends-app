@@ -113,7 +113,7 @@ export default function Characters() {
         addFavorites();
       } else {
         const index = favCharactersNames.indexOf(id);
-        removeFavorites();
+        removeFavorites(id);
         setfavcharactersnames(...[favCharactersNames], favCharactersNames.splice(index, 1))
       }
       //console.log(firebaseFavListNames)
@@ -171,19 +171,15 @@ export default function Characters() {
       })
     }
 
-    const removeFavorites = async () => {
-      favCharactersNames.forEach((id) => {
-        if (firebaseFavListNames.includes(id)){
-          try {
-            deleteFavCharacterById(id);
-            console.log("Personaje borrado", id);
-          } catch (error) {
-            console.log("Error al borrar personaje");
-          }
-        } else {
-          console.log("El personaje no se encuentra en la base de datos");
-        } 
-      })
+    const removeFavorites = async (id) => {
+      try {
+        const charToDel =  firebaseFavCharList.find((character) => character.name == id);
+        //console.log(charToDel)
+        deleteFavCharacterById(charToDel.id);
+        console.log("Personaje borrado", id);
+      } catch (error) { 
+        console.log("Error al borrar personaje");
+      }
     }
 
     const showOwnCharacters = () => {
