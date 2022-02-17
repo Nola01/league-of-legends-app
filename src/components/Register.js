@@ -10,11 +10,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import FaceIcon from '@mui/icons-material/Face';
 import Typography from '@mui/material/Typography';
+import GoogleIcon from '@mui/icons-material/Google';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
 
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { AuthContext } from "../context/AuthProvider";
-import { register, updateName } from '../firebase/firebase';
+import { register, updateName, auth, provider } from '../firebase/firebase';
 
 function Copyright(props) {
     return (
@@ -44,7 +46,7 @@ export default function Register() {
             (userCredentials) => {
                 setUser(userCredentials.user);
                 console.log(data.get('userName'))
-                updateName({displayName: `${data.get('userName')}`})
+                updateName({displayName: data.get('userName')})
                 .then(()=>{})
                 .catch((err)=>{console.log(err)})
             }
@@ -54,6 +56,32 @@ export default function Register() {
                 console.log(err);
             }
         )
+    };
+
+    const handleGoogle = (event) => {
+        event.preventDefault();
+        //const data = new FormData(event.currentTarget);
+        // eslint-disable-next-line no-console
+        // Sign in with Google
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            setUser(user);
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
     };
 
     return (
@@ -134,6 +162,9 @@ export default function Register() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                     <Grid item>
+                        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 10 }} onClick={handleGoogle}>
+                            <GoogleIcon/>
+                        </Button>
                         <Link component={RouterLink} to="/login" variant="body2">
                         ¿Tiene una cuenta? Inicia sesión
                         </Link>

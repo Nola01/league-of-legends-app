@@ -5,6 +5,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
 import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYe23tP2MhlkAKpyiC-bhqHLZWNxMMdYg",
@@ -14,6 +15,8 @@ const firebaseConfig = {
   messagingSenderId: "198610624125",
   appId: "1:198610624125:web:d34eafa156dd695d129b14"
 };
+
+const provider = new GoogleAuthProvider();
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -87,4 +90,4 @@ const deleteFavCharacterById = async (id) => {
   await deleteDoc(charRef);
 }
 
-export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName};
+export {auth, provider, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName};
