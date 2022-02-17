@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useContext } from 'react';
 
 import { AuthContext } from "../context/AuthProvider";
-import { register } from '../firebase/firebase';
+import { register, updateName } from '../firebase/firebase';
 
 function Copyright(props) {
     return (
@@ -33,7 +33,7 @@ const theme = createTheme();
 
 export default function Register() {
 
-    const { setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -43,6 +43,10 @@ export default function Register() {
         .then(
             (userCredentials) => {
                 setUser(userCredentials.user);
+                console.log(data.get('userName'))
+                updateName({displayName: `${data.get('userName')}`})
+                .then(()=>{})
+                .catch((err)=>{console.log(err)})
             }
         )
         .catch(
@@ -88,25 +92,14 @@ export default function Register() {
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12}>
                         <TextField
+                        required
+                        fullWidth
+                        id="userName"
+                        label="Nombre de usuario"
+                        name="userName"
                         autoComplete="given-name"
-                        name="firstName"
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="Nombre"
-                        autoFocus
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Apellido"
-                        name="lastName"
-                        autoComplete="family-name"
                         />
                     </Grid>
                     <Grid item xs={12}>

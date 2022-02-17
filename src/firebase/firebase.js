@@ -1,7 +1,7 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
-        ,signOut } from "firebase/auth";
+        ,signOut, updateProfile } from "firebase/auth";
 import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
@@ -26,6 +26,10 @@ const storage = getStorage();
 
 const register = (email, password) => {
   return createUserWithEmailAndPassword (auth, email, password);
+}
+
+const updateName = (userData) => {
+  return updateProfile(auth.currentUser, userData);
 }
 
 const login = (email, password) => {
@@ -83,4 +87,4 @@ const deleteFavCharacterById = async (id) => {
   await deleteDoc(charRef);
 }
 
-export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById};
+export {auth, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName};

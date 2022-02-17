@@ -86,7 +86,7 @@ export default function Characters() {
 
     const handleDetails = (id) => {
       //navigate('/details');
-      //console.log(character);
+      console.log(id);
     }
 
     const handleFavorites = (id) => {
@@ -236,7 +236,7 @@ export default function Characters() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleDetails(character.id)}>Detalles</Button>
+                    <Button size="small" onClick={()=>handleDetails(character.id)}>Detalles</Button>
                     {favCharactersNames.includes(character.id) && firebaseFavListNames.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
