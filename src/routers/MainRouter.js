@@ -10,6 +10,7 @@ import NewCharacter from '../components/NewCharacter';
 import OwnCharacters from '../components/OwnCharacters';
 import Details from '../components/Details';
 import Favorites from '../components/Favorites';
+import Reset from '../components/Reset';
 
 
 const MainRouter = () => {
@@ -18,6 +19,7 @@ const MainRouter = () => {
             <Routes>
                 <Route path = "/login" element = {<PublicRoute><Login/></PublicRoute>}/>
                 <Route path = "/register" element = {<PublicRoute><Register/></PublicRoute>}/>
+                <Route path = "/reset" element = {<PublicRoute><Reset/></PublicRoute>}/>
 
                 <Route path="/" element = {<PrivateRoute><Home/></PrivateRoute>}>
                     <Route index element = {<PrivateRoute><Characters/></PrivateRoute>}/>

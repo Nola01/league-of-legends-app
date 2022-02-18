@@ -149,7 +149,7 @@ export default function OwnCharacters() {
                     </CardActions>
                   </Card>
                   :
-                  <Grid></Grid>
+                  console.log("vacio")
                 }
               </Grid>
             ))}
