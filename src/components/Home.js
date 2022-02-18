@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -34,6 +34,9 @@ import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
 import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -101,7 +104,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function Home() {
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [userMenu, setusermenu] = useState(null);
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -118,6 +121,14 @@ function Home() {
 
   const handleHome = () => {
     navigate('/');
+  }
+
+  const handleUserMenu = (event) => {
+    setusermenu(event.currentTarget);
+  }
+
+  const handleClose = () => {
+    setusermenu(null);
   }
 
   const handleNewCharacter = () => {
@@ -170,6 +181,36 @@ function Home() {
             <IconButton color="inherit" onClick={handleHome}>
               <HomeIcon/>
             </IconButton>
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleUserMenu}
+                color="inherit"
+              >
+                <AccountCircleIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={userMenu}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(userMenu)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>{user.displayName || "Anónimo"}</MenuItem>
+                <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
