@@ -145,22 +145,35 @@ export default function Login() {
               >
                 Inicar sesión
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link component={RouterLink} to="#" variant="body2">
-                    He olvidado mi contraseña
-                  </Link>
+
+              <Grid container justifyContent="center">
+                <Typography component="h1" variant="h5">
+                  Inicia sesión con Google
+                </Typography>
+                <Grid item >
+                  <Button 
+                      type="submit" 
+                      variant="contained" 
+                      fullWidth
+                      sx={{ mt: 3, mb: 10 }} 
+                      onClick={handleGoogle}
+                  >
+                      <GoogleIcon/>
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link component={RouterLink} to="#" variant="body2">
+                        He olvidado mi contraseña
+                      </Link>
+                    </Grid>
+                    <Grid item xs>
+                      <Link component={RouterLink} to="/register" variant="body2">
+                        Crear cuenta
+                      </Link>
+                    </Grid>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link component={RouterLink} to="/register" variant="body2">
-                    Crear cuenta
-                  </Link>
-                </Grid>
-                
               </Grid>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 10 }} onClick={handleGoogle}>
-                <GoogleIcon/>
-              </Button>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

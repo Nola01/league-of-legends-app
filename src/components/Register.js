@@ -160,15 +160,25 @@ export default function Register() {
                     >
                     Crear cuenta
                     </Button>
-                    <Grid container justifyContent="flex-end">
-                    <Grid item>
-                        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 10 }} onClick={handleGoogle}>
-                            <GoogleIcon/>
-                        </Button>
-                        <Link component={RouterLink} to="/login" variant="body2">
-                        ¿Tiene una cuenta? Inicia sesión
-                        </Link>
-                    </Grid>
+                    
+                    <Grid container justifyContent="center">
+                        <Typography component="h1" variant="h5">
+                            Inicia sesión con Google
+                        </Typography>
+                        <Grid item >
+                            <Button 
+                                type="submit" 
+                                variant="contained" 
+                                fullWidth
+                                sx={{ mt: 3, mb: 10 }} 
+                                onClick={handleGoogle}
+                            >
+                                <GoogleIcon/>
+                            </Button>
+                            <Link component={RouterLink} to="/login" variant="body2">
+                                ¿Tiene una cuenta? Inicia sesión
+                            </Link>
+                        </Grid>
                     </Grid>
                 </Box>
                 </Box>
