@@ -1,11 +1,11 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
-        ,signOut, updateProfile } from "firebase/auth";
+        ,signOut, updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCYe23tP2MhlkAKpyiC-bhqHLZWNxMMdYg",
@@ -41,6 +41,10 @@ const login = (email, password) => {
 
 const logout = () => {
   return signOut(auth);
+}
+
+const resetPassword = (email) => {
+  return sendPasswordResetEmail(auth, email);
 }
 
 const addCharacter = (character) => {
@@ -90,4 +94,7 @@ const deleteFavCharacterById = async (id) => {
   await deleteDoc(charRef);
 }
 
-export {auth, provider, login, register, logout, addCharacter, uploadImage, getCharacters, getImageUrl, deleteCharacterById, addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName};
+export {auth, provider, login, register, logout, addCharacter, 
+        uploadImage, getCharacters, getImageUrl, deleteCharacterById, 
+        addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName,
+        resetPassword};
