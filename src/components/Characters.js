@@ -59,6 +59,7 @@ export default function Characters() {
       });
     }, [])
 
+    
     const firebaseFavListNames = [];
     firebaseFavCharList.forEach((character) => {
       firebaseFavListNames.push(character.name)
@@ -86,7 +87,7 @@ export default function Characters() {
 
     const [favIcon, setfavicon] = useState(false);
 
-    const handleDetails = (id) => {
+    const handleDetails = () => {
       if (showDetails){
         setshowdetails(false)
       } else{
@@ -218,6 +219,7 @@ export default function Characters() {
             </Stack>
           </Container>
         </Box>
+        <Button size="small" onClick={handleDetails}><InfoIcon/> Mostrar vista completa</Button>
         <Container sx={{ py: 8 }} maxWidth="0" className='characters'>
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -307,8 +309,7 @@ export default function Characters() {
                       }
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={()=>handleDetails(character.id)}><InfoIcon/></Button>
-                    {favCharactersNames.includes(character.id) && firebaseFavListNames.includes(character.id) ?
+                    {firebaseFavListNames.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>

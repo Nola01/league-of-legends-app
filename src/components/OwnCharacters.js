@@ -192,6 +192,7 @@ export default function OwnCharacters() {
             </Stack>
           </Container>
         </Box>
+        <Button size="small" onClick={handleDetails}><InfoIcon/> Mostrar vista completa</Button>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -264,7 +265,6 @@ export default function OwnCharacters() {
                       }
                     </CardContent>
                     <CardActions>
-                      <Button size="small" onClick={handleDetails}><InfoIcon/></Button>
                       <Button size="small" onClick={()=>handleEdit(character.id)}><EditIcon/></Button>
                       <Button size="small" onClick={()=>handleDelete(character.id)}><DeleteIcon/></Button>
                     </CardActions>
