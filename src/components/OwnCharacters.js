@@ -49,6 +49,8 @@ export default function OwnCharacters() {
 
     const [open, setOpen] = useState(false);
 
+    const [showDetails, setshowdetails] = useState(false);
+
     const [updateId, setupdateid] = useState(0);
 
     const navigate = useNavigate();
@@ -79,8 +81,11 @@ export default function OwnCharacters() {
     //console.log(characters);
 
     const handleDetails = (id) => {
-      navigate('/details');
-      console.log(id)
+      if (showDetails){
+        setshowdetails(false)
+      } else{
+        setshowdetails(true)
+      }
     }
 
     const handleClose = () => {
@@ -101,7 +106,6 @@ export default function OwnCharacters() {
     }
 
     const handleSubmit = async (event) => {
-      console.log(event.target.value)
       event.preventDefault();
         if (isValid()) {
           try {
@@ -118,11 +122,10 @@ export default function OwnCharacters() {
             console.log(values.description)
             console.log(values.image[0].name)
             await updateCharacterById(updateId, doc);
-            console.log('Personaje añadido');
+            console.log('Personaje actualizado');
             //console.log(values.image[0])
             //console.log(values.image[0].name)
             //console.log(defaultImage.name)
-            navigate('/own');
           } catch (error) {
             //TODO Muchos errores posibles por tratar.
             console.log(error)
@@ -207,9 +210,58 @@ export default function OwnCharacters() {
                       <Typography gutterBottom variant="h5" component="h2">
                         {character.name}
                       </Typography>
-                      <Typography>
-                        {character.description}
-                      </Typography>
+                      {character.category == 1 ? 
+                        <Typography>
+                          Mago
+                        </Typography>
+                        : 
+                        <></>
+                      }
+                      {character.category == 2 ?
+                        <Typography>
+                          Asesino
+                        </Typography>
+                        :
+                        <></>
+                      }
+                      {character.category == 3 ?
+                        <Typography>
+                          Luchador
+                        </Typography>
+                        :
+                        <></>
+                      }
+                      {character.category == 4 ?
+                        <Typography>
+                          Tanque
+                        </Typography>
+                        :
+                        <></>
+                      }
+                      {character.category == 5 ?
+                        <Typography>
+                          Soporte
+                        </Typography>
+                        :
+                        <></>
+                      }
+                      {character.category == 6 ?
+                        <Typography>
+                          Tirador
+                        </Typography>
+                        :
+                        <></>
+                      }
+                      {showDetails ?
+                        <Typography gutterBottom variant="h5" component="h2" >
+                        Descripción
+                          <Typography>
+                            {character.description}
+                          </Typography>
+                        </Typography>
+                        :
+                        <></>
+                      }
                     </CardContent>
                     <CardActions>
                       <Button size="small" onClick={()=>handleDetails(character.id)}><InfoIcon/></Button>

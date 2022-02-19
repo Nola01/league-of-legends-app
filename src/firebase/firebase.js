@@ -94,7 +94,25 @@ const deleteFavCharacterById = async (id) => {
 }
 
 const updateCharacterById = async (id, characterUpdate) => {
+
   deleteCharacterById(id);
+
+  /*
+  console.log(characterUpdate.description)
+
+  if (characterUpdate.name == undefined) {
+    characterUpdate.name = character.name
+  }
+  if (characterUpdate.category == undefined) {
+    characterUpdate.category = character.category
+  }
+  if (characterUpdate.description == undefined) {
+    characterUpdate.description = character.description
+  }
+  if (characterUpdate.image == undefined) {
+    characterUpdate.image = character.image
+  }
+  */
 
   addCharacter(characterUpdate)
 
