@@ -90,7 +90,6 @@ const deleteCharacterById = async (id) => {
 const deleteFavCharacterById = async (id) => {
   const charRef = doc(db, 'favorites', id);
   const charDoc = await getDoc(charRef);
-  const character = charDoc.data;
   await deleteDoc(charRef);
 }
 

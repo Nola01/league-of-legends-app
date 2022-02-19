@@ -66,7 +66,7 @@ export default function OwnCharacters() {
     const handleDelete = (id) => {
       console.log(id)
       try {
-        //deleteFavCharacterById(id);
+        deleteFavCharacterById(id);
         console.log("Personaje borrado", id);
       } catch (error) {
         console.log("Error al borrar personaje");
