@@ -127,6 +127,11 @@ function Home() {
     setusermenu(event.currentTarget);
   }
 
+  const handleProfile = () => {
+    setusermenu(null);
+    navigate('/profile');
+  }
+
   const handleClose = () => {
     setusermenu(null);
   }
@@ -207,7 +212,7 @@ function Home() {
                 open={Boolean(userMenu)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>{user.displayName || "Anónimo"}</MenuItem>
+                <MenuItem onClick={handleProfile}>{user.displayName || "Anónimo"}</MenuItem>
                 <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
               </Menu>
             </div>
