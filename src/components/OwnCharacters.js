@@ -264,7 +264,7 @@ export default function OwnCharacters() {
                       }
                     </CardContent>
                     <CardActions>
-                      <Button size="small" onClick={()=>handleDetails(character.id)}><InfoIcon/></Button>
+                      <Button size="small" onClick={handleDetails}><InfoIcon/></Button>
                       <Button size="small" onClick={()=>handleEdit(character.id)}><EditIcon/></Button>
                       <Button size="small" onClick={()=>handleDelete(character.id)}><DeleteIcon/></Button>
                     </CardActions>
