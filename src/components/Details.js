@@ -1,22 +1,36 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import EditIcon from '@mui/icons-material/Edit';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Avatar, Box, TextField, Button } from '@mui/material';
+import { useNavigate} from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { getCharacterById } from '../helpers/api';
 
-import MessageBox from './MessageBox';
+const theme = createTheme();
 
 export default function Details() {
 
-  return (
-      <div>
-          <MessageBox/>
-      </div>
-  );
+    const navigate = useNavigate();
+
+    const [character, setcharacter] = useState([]);
+
+    const getChar = (id) => {
+      getCharacterById(id).then((character) => setcharacter(character))
+    }
+
+
+    return (
+    <ThemeProvider theme={theme}>
+        <Box 
+            sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: 5
+            }}
+        >
+                         
+        </Box>
+            
+    </ThemeProvider>
+    );
 }

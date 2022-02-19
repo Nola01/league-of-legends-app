@@ -93,28 +93,28 @@ export default function NewCharacter() {
               autoFocus
               {...(errors['name'] && { error: true, helperText: errors['name'] })}
             />
-              <FormControl fullWidth >
-                <InputLabel id="category">Categoría</InputLabel>
-                <Select
-                    labelId="category"
-                    required
-                    fullWidth
-                    id="categoria"
-                    label="Categoría"
-                    name="category"
-                    onBlur = {onChangeField}
-                    value={values.category}
-                    onChange={onChangeField}
-                    {...(errors['category'] && {error: true})}
-                    >
-                    <MenuItem value={1}>Mago</MenuItem>
-                    <MenuItem value={2}>Asesino</MenuItem>
-                    <MenuItem value={3}>Luchador</MenuItem>
-                    <MenuItem value={4}>Tanque</MenuItem>
-                    <MenuItem value={5}>Soporte</MenuItem>
-                    <MenuItem value={6}>Tirador</MenuItem>
-                </Select>
-                {errors['category'] && <FormHelperText>{errors['category']}</FormHelperText>}
+            <FormControl fullWidth >
+              <InputLabel id="category">Categoría</InputLabel>
+              <Select
+                  labelId="category"
+                  required
+                  fullWidth
+                  id="categoria"
+                  label="Categoría"
+                  name="category"
+                  onBlur = {onChangeField}
+                  value={values.category}
+                  onChange={onChangeField}
+                  {...(errors['category'] && {error: true})}
+                  >
+                  <MenuItem value={1}>Mago</MenuItem>
+                  <MenuItem value={2}>Asesino</MenuItem>
+                  <MenuItem value={3}>Luchador</MenuItem>
+                  <MenuItem value={4}>Tanque</MenuItem>
+                  <MenuItem value={5}>Soporte</MenuItem>
+                  <MenuItem value={6}>Tirador</MenuItem>
+              </Select>
+              {errors['category'] && <FormHelperText>{errors['category']}</FormHelperText>}
             </FormControl>
             <TextField
               margin="normal"

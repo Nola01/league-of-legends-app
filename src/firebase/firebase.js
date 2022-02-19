@@ -93,7 +93,42 @@ const deleteFavCharacterById = async (id) => {
   await deleteDoc(charRef);
 }
 
+const updateCharacterById = async (id, characterUpdate) => {
+  deleteCharacterById(id);
+
+  addCharacter(characterUpdate)
+
+  /*
+  const charRef = doc(db, 'characters', id);
+  const charDoc = await getDoc(charRef);
+  const character = charDoc.data();
+  console.log(charRef)
+  console.log(character)
+
+  
+  character.name = characterUpdate.name;
+  character.category = characterUpdate.category;
+  character.description = characterUpdate.description;
+  character.image = characterUpdate.image;
+  
+
+  
+  await character.update({ uid : characterUpdate.uid });
+  await character.update({ name : characterUpdate.name });
+  await character.update({ category : characterUpdate.category });
+  await character.update({ description : characterUpdate.description });
+  await character.update({ image: characterUpdate.image });
+  
+
+  
+  const imageRef = ref(storage, 'images/' + character.image);
+  await deleteObject(imageRef);
+
+  uploadImage(characterUpdate.image)
+  */
+}
+
 export {auth, provider, login, register, logout, addCharacter, 
         uploadImage, getCharacters, getImageUrl, deleteCharacterById, 
         addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName,
-        resetPassword};
+        resetPassword, updateCharacterById};
