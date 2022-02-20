@@ -241,48 +241,6 @@ export default function Characters() {
                     <Typography>
                       {character.title}
                     </Typography>
-                    {character.category == 1 ? 
-                        <Typography>
-                          Mago
-                        </Typography>
-                        : 
-                        <></>
-                      }
-                      {character.category == 2 ?
-                        <Typography>
-                          Asesino
-                        </Typography>
-                        :
-                        <></>
-                      }
-                      {character.category == 3 ?
-                        <Typography>
-                          Luchador
-                        </Typography>
-                        :
-                        <></>
-                      }
-                      {character.category == 4 ?
-                        <Typography>
-                          Tanque
-                        </Typography>
-                        :
-                        <></>
-                      }
-                      {character.category == 5 ?
-                        <Typography>
-                          Soporte
-                        </Typography>
-                        :
-                        <></>
-                      }
-                      {character.category == 6 ?
-                        <Typography>
-                          Tirador
-                        </Typography>
-                        :
-                        <></>
-                      }
                       {showDetails ?
                         <Typography gutterBottom variant="h5" component="h2" >
                           <Typography gutterBottom variant="h5" component="h2">
@@ -294,7 +252,48 @@ export default function Characters() {
                           <Typography gutterBottom variant="h5" component="h2">
                             Categoría: <br/>
                             <Typography>
-                              {character.tags[0]}
+                              {character.tags[0] == 'Mage' ? 
+                                <Typography>
+                                  Mago
+                                </Typography>
+                                : 
+                                <></>
+                              }
+                              {character.tags[0] == 'Assassin' ?
+                                <Typography>
+                                  Asesino
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Fighter' ?
+                                <Typography>
+                                  Luchador
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Tank' ?
+                                <Typography>
+                                  Tanque
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Support' ?
+                                <Typography>
+                                  Soporte
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.category == 6 ?
+                                <Typography>
+                                  Tirador
+                                </Typography>
+                                :
+                                <></>
+                              }
                             </Typography>
                           </Typography>
                           <Typography gutterBottom variant="h5" component="h2">
