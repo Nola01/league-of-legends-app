@@ -14,11 +14,12 @@ import FaceIcon from '@mui/icons-material/Face';
 import Typography from '@mui/material/Typography';
 import GoogleIcon from '@mui/icons-material/Google';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { register, updateName, auth, provider } from '../firebase/firebase';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { login } from '../firebase/firebase';
 import { AuthContext } from "../context/AuthProvider";
 
@@ -40,20 +41,28 @@ const theme = createTheme();
 export default function Login() {
 
   const { setUser } = useContext(AuthContext);
+  const [validEmail, setvalidemail] = useState(true);
+  let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    login(data.get('email'), data.get('password')).then(
-      ( userCredentials )=> {
-         setUser(userCredentials.user);
-      }
-    ).catch(
-      (err)=> {
-        console.log(err);
-      }
-    );
+    if (emailPattern.test(data.get('email'))) {
+      login(data.get('email'), data.get('password')).then(
+        ( userCredentials )=> {
+           setUser(userCredentials.user);
+        }
+      ).catch(
+        (err)=> {
+          console.log(err);
+        }
+      );
+    } else {
+      console.log("error")
+      setvalidemail(false)
+    }
+    setvalidemail(false)
   };
 
   const handleGoogle = (event) => {
@@ -138,14 +147,18 @@ export default function Login() {
                 autoComplete="current-password"
               />
               <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
               >
                 Inicar sesión
               </Button>
-
+              {validEmail ?
+                <></>
+                :
+                <Alert severity="error">Correo no válido o no registrado</Alert>
+              }
               <Grid container justifyContent="center">
                 <Typography component="h1" variant="h5">
                   Inicia sesión con Google
