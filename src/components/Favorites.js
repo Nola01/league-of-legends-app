@@ -69,16 +69,6 @@ export default function OwnCharacters() {
       }
     }
 
-    const handleDelete = (id) => {
-      console.log(id)
-      try {
-        deleteFavCharacterById(id);
-        console.log("Personaje borrado", id);
-      } catch (error) {
-        console.log("Error al borrar personaje");
-      }
-    }
-
     const showAllCharacters = () => {
       navigate('/')
     }
@@ -157,9 +147,6 @@ export default function OwnCharacters() {
                         <></>
                       }
                     </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={()=>handleDelete(character.name)}><DeleteIcon/></Button>
-                    </CardActions>
                   </Card>
                   :
                   console.log("vacio")
