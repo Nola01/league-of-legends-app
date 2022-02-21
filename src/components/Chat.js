@@ -4,8 +4,6 @@ import Button from '@mui/material/Button';
 
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 
-import MessageBox from './MessageBox';
-
 export default function Chat() {
 
   const [open, setOpen] = useState(true);

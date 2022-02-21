@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Typography from '@mui/material/Typography';
@@ -21,7 +20,7 @@ import { TextField } from '@mui/material';
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getImageUrl, getCharacters, deleteCharacterById, addCharacter, uploadImage, updateCharacterById } from '../firebase/firebase';
+import { getImageUrl, getCharacters, deleteCharacterById, uploadImage, updateCharacterById } from '../firebase/firebase';
 import { AuthContext } from '../context/AuthProvider';
 import useForm from '../hooks/useForm';
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,19 +11,9 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -39,24 +28,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import StarIcon from '@mui/icons-material/Star';
-import { red, blue, yellow, green } from '@mui/material/colors';
+import { red, yellow } from '@mui/material/colors';
 
 import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../firebase/firebase';
-
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.riotgames.com/es">
-        Riot Games
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -109,6 +84,7 @@ const mdTheme = createTheme();
 function Home() {
   const [userMenu, setusermenu] = useState(null);
   const [open, setOpen] = useState(false);
+  const { loggedIn, user } = useContext(AuthContext);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -117,8 +93,6 @@ function Home() {
   const [selectAdd, setselectadd] = useState(false);
   const [selectOwn, setselectown] = useState(false);
   const [selectFav, setselectfav] = useState(false);
-
-  const { loggedIn, user } = useContext(AuthContext);
 
   const handleLogout = () => {
       if(loggedIn) {

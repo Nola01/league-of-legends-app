@@ -8,9 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
@@ -21,7 +18,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { uploadImage, addFavCharacter, getFavCharacters, getImageUrl, deleteFavCharacterById } from '../firebase/firebase';
+import { addFavCharacter, getFavCharacters, getImageUrl, deleteFavCharacterById } from '../firebase/firebase';
 import { characters, getCharacterById } from '../helpers/api';
 import { AuthContext } from '../context/AuthProvider';
 
@@ -42,11 +39,13 @@ const theme = createTheme();
 
 export default function Characters() {
 
-    const [firebaseFavCharList, setfavcharlist] = useState([]);
-    const [charList, setcharlist] = useState([]);
-    const [favCharactersNames, setfavcharactersnames] = useState([]);
-    const [showDetails, setshowdetails] = useState(false);
+    const [firebaseFavCharList, setfavcharlist] = useState([]); //firebaseFavCharList contiene todos los personajes de la colección "favoritos" en la base de datos de firebase
+    const [charList, setcharlist] = useState([]); // contiene todos los personajes que se muestran en la página de inicio
+    const [favCharactersNames, setfavcharactersnames] = useState([]); // contiene todos los nombres de los personajes que están en la colección "favoritos"
+    const [showDetails, setshowdetails] = useState(false); // si es true muestra más información sobre los personajes, si es false solo muestra el nombre y el título
+    const [favIcon, setfavicon] = useState(false);
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
       getFavCharacters( async (snapshot)=>{
@@ -55,23 +54,13 @@ export default function Characters() {
         });
         const list = await Promise.all(newCharactersPromise);
         setfavcharlist(list);
-        
       });
     }, [])
 
-    
     const firebaseFavListNames = [];
     firebaseFavCharList.forEach((character) => {
       firebaseFavListNames.push(character.name)
     })
-
-    
-
-    
-
-    //const favCharacters = [];
-
-    const navigate = useNavigate();
 
     characters.then((characters) => setcharlist(characters));
 
@@ -82,10 +71,6 @@ export default function Characters() {
       //console.log(charList[char]);
       chars.push(charList[char]);
     }
-
-    //console.log(chars);
-
-    const [favIcon, setfavicon] = useState(false);
 
     const handleDetails = () => {
       if (showDetails){

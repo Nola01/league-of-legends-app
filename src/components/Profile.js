@@ -1,8 +1,9 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Avatar, Box, TextField, Button } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { AuthContext } from '../context/AuthProvider';
 
 const theme = createTheme();
@@ -10,14 +11,21 @@ const theme = createTheme();
 export default function Profile() {
 
     const { user } = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+
+    const handleClose = () => {
+        setOpen(false);
+    };  
 
     const handleEdit = () => {
         // edit profile
+        setOpen(true);
     }
 
     const handlePassword = () =>{
-        navigate('/reset')
+        //navigate('/reset')
+        setOpen(true);
     }
 
     return (
@@ -68,6 +76,27 @@ export default function Profile() {
                 </Button>
             </Box>             
         </Box>
+
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                Función no disponible
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Esta función aún no está disponible. ¡Disculpe las molestias!
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} autoFocus>
+                Aceptar
+                </Button>
+            </DialogActions>
+        </Dialog>
             
     </ThemeProvider>
     );

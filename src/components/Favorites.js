@@ -3,25 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import InfoIcon from '@mui/icons-material/Info';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getImageUrl, getFavCharacters, deleteFavCharacterById } from '../firebase/firebase';
+import { getFavCharacters, deleteFavCharacterById } from '../firebase/firebase';
 
 
 import { AuthContext } from '../context/AuthProvider';
-import { getCharacterById } from '../helpers/api';
 
 function Copyright(props) {
   return (
