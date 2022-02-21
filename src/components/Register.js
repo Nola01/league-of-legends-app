@@ -39,12 +39,15 @@ export default function Register() {
 
     const { user, setUser } = useContext(AuthContext);
     const [validEmail, setvalidemail] = useState(true);
+    const [validPassword, setvalidpassword] = useState(true);
     let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    let passwordPattern = /^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/;
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        if (emailPattern.test(data.get('email'))) {
+        if (emailPattern.test(data.get('email')) && passwordPattern.test(data.get('password'))) {
             register(data.get('email'), data.get('password'))
             .then(
                 (userCredentials) => {
@@ -63,6 +66,7 @@ export default function Register() {
         } else {
             console.log("error")
             setvalidemail(false)
+            setvalidpassword(false)
         }
         setvalidemail(false)        
     };
@@ -173,6 +177,28 @@ export default function Register() {
                         <></>
                         :
                         <Alert severity="error">Correo no válido o registrado</Alert>
+                    }
+                    {validEmail ?
+                        <Alert severity="info">
+                            La contraseña debe contener:
+                            - Mínimo 8 caracteres
+                            - Máximo 16
+                            - Al menos una letra mayúscula
+                            - Al menos una letra minúscula
+                            - Al menos un dígito
+                            - Al menos un caracter especial
+                        </Alert>
+                        :
+                        <Alert severity="error">
+                            Contraseña no válida. Debe contener:
+                            - Mínimo 8 caracteres
+                            - Máximo 15
+                            - Al menos una letra mayúscula
+                            - Al menos una letra minúscula
+                            - Al menos un dígito
+                            - Al menos un caracter especial
+                            - Ningún espacio en blanco
+                        </Alert>
                     }
                     <Grid container justifyContent="center">
                         <Typography component="h1" variant="h5">
