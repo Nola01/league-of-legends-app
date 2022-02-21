@@ -37,6 +37,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import StarIcon from '@mui/icons-material/Star';
+import { red, blue, yellow, green } from '@mui/material/colors';
 
 import { AuthContext } from '../context/AuthProvider';
 import { logout } from '../firebase/firebase';
@@ -105,11 +108,15 @@ const mdTheme = createTheme();
 
 function Home() {
   const [userMenu, setusermenu] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const navigate = useNavigate();
+
+  const [selectAdd, setselectadd] = useState(false);
+  const [selectOwn, setselectown] = useState(false);
+  const [selectFav, setselectfav] = useState(false);
 
   const { loggedIn, user } = useContext(AuthContext);
 
@@ -137,18 +144,30 @@ function Home() {
   }
 
   const handleNewCharacter = () => {
+    setselectfav(false)
+    setselectown(false)
+    setselectadd(true)
     navigate('/new');
   }
 
   const handleOwnCharacters = () => {
+    setselectfav(false)
+    setselectadd(false)
+    setselectown(true)
     navigate('/own');
   }
 
   const handleFavCharacters = () => {
+    setselectadd(false)
+    setselectown(false)
+    setselectfav(true)
     navigate('/favorites');
   }
 
   const handleChat = () => {
+    setselectfav(false)
+    setselectadd(false)
+    setselectown(false)
     navigate('/chat');
   }
 
@@ -156,7 +175,7 @@ function Home() {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={open} style={{ background: '#0a0a0a' }}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -235,21 +254,39 @@ function Home() {
 
           <List>
             <ListItem button key="Añadir Personaje" onClick={handleNewCharacter}>
-              <ListItemIcon>
-                <AddIcon/>
-              </ListItemIcon>
+              {selectAdd ?
+                <ListItemIcon>
+                  <AddCircleIcon/>
+                </ListItemIcon> 
+                :
+                <ListItemIcon>
+                  <AddIcon/>
+                </ListItemIcon> 
+              }
               <ListItemText primary="Añadir personaje" />
             </ListItem>
             <ListItem button key="Personajes creados" onClick={handleOwnCharacters}>
-              <ListItemIcon>
-                <StarBorderIcon/>
-              </ListItemIcon>
+              {selectOwn ?
+                <ListItemIcon sx={{ color: yellow[800] }}>
+                  <StarIcon/>
+                </ListItemIcon>
+                :
+                <ListItemIcon>
+                  <StarBorderIcon/>
+                </ListItemIcon>
+              }
               <ListItemText primary="Personajes creados" />
             </ListItem>  
             <ListItem button key="Favoritos" onClick={handleFavCharacters}>
-              <ListItemIcon>
-                <FavoriteIcon/>
-              </ListItemIcon>
+              {selectFav ?
+                <ListItemIcon sx={{ color: red[500] }}>
+                  <FavoriteIcon/>
+                </ListItemIcon>
+                :
+                <ListItemIcon>
+                  <FavoriteIcon/>
+                </ListItemIcon>
+              }
               <ListItemText primary="Favoritos" />
             </ListItem>       
             <ListItem button key="Chat" onClick={handleChat}>

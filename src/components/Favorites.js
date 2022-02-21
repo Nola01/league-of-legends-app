@@ -21,6 +21,7 @@ import { getImageUrl, getFavCharacters, deleteFavCharacterById } from '../fireba
 
 
 import { AuthContext } from '../context/AuthProvider';
+import { getCharacterById } from '../helpers/api';
 
 function Copyright(props) {
   return (
@@ -43,6 +44,8 @@ export default function OwnCharacters() {
 
     const [characters, setcharacters] = useState([]);
 
+    const [showDetails, setshowdetails] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -59,22 +62,11 @@ export default function OwnCharacters() {
     //console.log(characters);
 
     const handleDetails = (id) => {
-      //navigate('/details');
-      console.log(id)
-    }
-
-    const handleDelete = (id) => {
-      console.log(id)
-      try {
-        //deleteFavCharacterById(id);
-        console.log("Personaje borrado", id);
-      } catch (error) {
-        console.log("Error al borrar personaje");
+      if (showDetails){
+        setshowdetails(false)
+      } else{
+        setshowdetails(true)
       }
-    }
-
-    const handleEdit = (id) => {
-      console.log(id)
     }
 
     const showAllCharacters = () => {
@@ -120,6 +112,7 @@ export default function OwnCharacters() {
             </Stack>
           </Container>
         </Box>
+        <Button size="small" onClick={handleDetails}><InfoIcon/> Mostrar vista completa</Button>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -141,12 +134,19 @@ export default function OwnCharacters() {
                       <Typography>
                         {character.title}
                       </Typography>
+                      {showDetails ?
+                        <Typography gutterBottom variant="h5" component="h2" >
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Descripción: <br/>
+                            <Typography>
+                              {character.description}
+                            </Typography>
+                          </Typography>
+                        </Typography>
+                        :
+                        <></>
+                      }
                     </CardContent>
-                    <CardActions>
-                      <Button size="small" onClick={()=>handleDetails(character.name)}><InfoIcon/></Button>
-                      <Button size="small" onClick={()=>handleEdit(character.name)}><EditIcon/></Button>
-                      <Button size="small" onClick={()=>handleDelete(character.name)}><DeleteIcon/></Button>
-                    </CardActions>
                   </Card>
                   :
                   console.log("vacio")

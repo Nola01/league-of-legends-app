@@ -12,7 +12,9 @@ import FaceIcon from '@mui/icons-material/Face';
 import Typography from '@mui/material/Typography';
 import GoogleIcon from '@mui/icons-material/Google';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useContext } from 'react';
+import Alert from '@mui/material/Alert';
+
+import { useContext, useState } from 'react';
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { AuthContext } from "../context/AuthProvider";
@@ -36,26 +38,33 @@ const theme = createTheme();
 export default function Register() {
 
     const { user, setUser } = useContext(AuthContext);
+    const [validEmail, setvalidemail] = useState(true);
+    let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        register(data.get('email'), data.get('password'))
-        .then(
-            (userCredentials) => {
-                setUser(userCredentials.user);
-                console.log(data.get('userName'))
-                updateName({displayName: data.get('userName')})
-                .then(()=>{})
-                .catch((err)=>{console.log(err)})
-            }
-        )
-        .catch(
-            (err) => {
-                console.log(err);
-            }
-        )
+        if (emailPattern.test(data.get('email'))) {
+            register(data.get('email'), data.get('password'))
+            .then(
+                (userCredentials) => {
+                    setUser(userCredentials.user);
+                    console.log(data.get('userName'))
+                    updateName({displayName: data.get('userName')})
+                    .then(()=>{})
+                    .catch((err)=>{console.log(err)})
+                }
+            )
+            .catch(
+                (err) => {
+                    console.log(err);
+                }
+            )
+        } else {
+            console.log("error")
+            setvalidemail(false)
+        }
+        setvalidemail(false)        
     };
 
     const handleGoogle = (event) => {
@@ -160,7 +169,11 @@ export default function Register() {
                     >
                     Crear cuenta
                     </Button>
-                    
+                    {validEmail ?
+                        <></>
+                        :
+                        <Alert severity="error">Correo no válido o registrado</Alert>
+                    }
                     <Grid container justifyContent="center">
                         <Typography component="h1" variant="h5">
                             Inicia sesión con Google

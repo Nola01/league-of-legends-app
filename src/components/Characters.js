@@ -17,6 +17,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import InfoIcon from '@mui/icons-material/Info';
 import { red } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -44,6 +45,7 @@ export default function Characters() {
     const [firebaseFavCharList, setfavcharlist] = useState([]);
     const [charList, setcharlist] = useState([]);
     const [favCharactersNames, setfavcharactersnames] = useState([]);
+    const [showDetails, setshowdetails] = useState(false);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -57,6 +59,7 @@ export default function Characters() {
       });
     }, [])
 
+    
     const firebaseFavListNames = [];
     firebaseFavCharList.forEach((character) => {
       firebaseFavListNames.push(character.name)
@@ -84,9 +87,12 @@ export default function Characters() {
 
     const [favIcon, setfavicon] = useState(false);
 
-    const handleDetails = (id) => {
-      //navigate('/details');
-      console.log(id);
+    const handleDetails = () => {
+      if (showDetails){
+        setshowdetails(false)
+      } else{
+        setshowdetails(true)
+      }
     }
 
     const handleFavorites = (id) => {
@@ -213,6 +219,7 @@ export default function Characters() {
             </Stack>
           </Container>
         </Box>
+        <Button size="small" onClick={handleDetails}><InfoIcon/> Mostrar vista completa</Button>
         <Container sx={{ py: 8 }} maxWidth="0" className='characters'>
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -234,10 +241,74 @@ export default function Characters() {
                     <Typography>
                       {character.title}
                     </Typography>
+                      {showDetails ?
+                        <Typography gutterBottom variant="h5" component="h2" >
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Descripción: <br/>
+                            <Typography>
+                              {character.blurb}
+                            </Typography>
+                          </Typography>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Categoría: <br/>
+                            <Typography>
+                              {character.tags[0] == 'Mage' ? 
+                                <Typography>
+                                  Mago
+                                </Typography>
+                                : 
+                                <></>
+                              }
+                              {character.tags[0] == 'Assassin' ?
+                                <Typography>
+                                  Asesino
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Fighter' ?
+                                <Typography>
+                                  Luchador
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Tank' ?
+                                <Typography>
+                                  Tanque
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.tags[0] == 'Support' ?
+                                <Typography>
+                                  Soporte
+                                </Typography>
+                                :
+                                <></>
+                              }
+                              {character.category == 6 ?
+                                <Typography>
+                                  Tirador
+                                </Typography>
+                                :
+                                <></>
+                              }
+                            </Typography>
+                          </Typography>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Dificultad: <br/>
+                            <Typography>
+                              {character.info.difficulty}
+                            </Typography>
+                          </Typography>
+                        </Typography>
+                        :
+                        <></>
+                      }
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={()=>handleDetails(character.id)}>Detalles</Button>
-                    {favCharactersNames.includes(character.id) && firebaseFavListNames.includes(character.id) ?
+                    {firebaseFavListNames.includes(character.id) ?
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteIcon sx={{ color: red[500] }}/></Button>
                       :
                       <Button size="small" onClick={()=>handleFavorites(character.id)}><FavoriteBorderIcon sx={{ color: red[500] }}/></Button>
