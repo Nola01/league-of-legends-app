@@ -1,0 +1,152 @@
+
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
+        ,signOut, updateProfile, sendPasswordResetEmail } from "firebase/auth";
+import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
+
+import { GoogleAuthProvider } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYe23tP2MhlkAKpyiC-bhqHLZWNxMMdYg",
+  authDomain: "league-of-legends-app-9ae9f.firebaseapp.com",
+  projectId: "league-of-legends-app-9ae9f",
+  storageBucket: "league-of-legends-app-9ae9f.appspot.com",
+  messagingSenderId: "198610624125",
+  appId: "1:198610624125:web:d34eafa156dd695d129b14"
+};
+
+const provider = new GoogleAuthProvider();
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth();
+
+const db = getFirestore();
+
+const storage = getStorage();
+
+const register = (email, password) => {
+  return createUserWithEmailAndPassword (auth, email, password);
+}
+
+const updateName = (userData) => {
+  return updateProfile(auth.currentUser, userData);
+}
+
+const login = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+const logout = () => {
+  return signOut(auth);
+}
+
+const resetPassword = (email) => {
+  return sendPasswordResetEmail(auth, email);
+}
+
+const addCharacter = (character) => {
+  return addDoc(collection(db, "characters"), character);
+}
+
+const uploadImage = (image) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, `/images/${image.name}`);
+  return uploadBytes(imageRef, image);
+}
+
+
+const getCharacters = (listener) => {
+  return onSnapshot(collection(db, "characters"), listener); 
+}
+
+const getFavCharacters = (listener) => {
+  return onSnapshot(collection(db, "favorites"), listener); 
+}
+
+const addFavCharacter = (character) => {
+  return addDoc(collection(db, "favorites"), character);
+}
+
+const getImageUrl = async (imageName) => {
+  try {
+      return await getDownloadURL(ref(storage, 'images/' + imageName));
+  } catch (err) {
+      return '';
+  }
+}
+
+const deleteCharacterById = async (id) => {
+  const charRef = doc(db, 'characters', id);
+  const charDoc = await getDoc(charRef);
+  const character = charDoc.data();
+  await deleteDoc(charRef);
+  const imageRef = ref(storage, 'images/' + character.image);
+  await deleteObject(imageRef);
+}
+
+const deleteFavCharacterById = async (id) => {
+  const charRef = doc(db, 'favorites', id);
+  const charDoc = await getDoc(charRef);
+  await deleteDoc(charRef);
+}
+
+const updateCharacterById = async (id, characterUpdate) => {
+
+  deleteCharacterById(id);
+
+  /*
+  console.log(characterUpdate.description)
+
+  if (characterUpdate.name == undefined) {
+    characterUpdate.name = character.name
+  }
+  if (characterUpdate.category == undefined) {
+    characterUpdate.category = character.category
+  }
+  if (characterUpdate.description == undefined) {
+    characterUpdate.description = character.description
+  }
+  if (characterUpdate.image == undefined) {
+    characterUpdate.image = character.image
+  }
+  */
+
+  addCharacter(characterUpdate)
+
+  /*
+  const charRef = doc(db, 'characters', id);
+  const charDoc = await getDoc(charRef);
+  const character = charDoc.data();
+  console.log(charRef)
+  console.log(character)
+
+  
+  character.name = characterUpdate.name;
+  character.category = characterUpdate.category;
+  character.description = characterUpdate.description;
+  character.image = characterUpdate.image;
+  
+
+  
+  await character.update({ uid : characterUpdate.uid });
+  await character.update({ name : characterUpdate.name });
+  await character.update({ category : characterUpdate.category });
+  await character.update({ description : characterUpdate.description });
+  await character.update({ image: characterUpdate.image });
+  
+
+  
+  const imageRef = ref(storage, 'images/' + character.image);
+  await deleteObject(imageRef);
+
+  uploadImage(characterUpdate.image)
+  */
+}
+
+export {auth, provider, login, register, logout, addCharacter, 
+        uploadImage, getCharacters, getImageUrl, deleteCharacterById, 
+        addFavCharacter, getFavCharacters, deleteFavCharacterById, updateName,
+        resetPassword, updateCharacterById};
