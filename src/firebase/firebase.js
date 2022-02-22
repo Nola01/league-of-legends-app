@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword
         ,signOut, updateProfile, sendPasswordResetEmail } from "firebase/auth";
-import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, onSnapshot, doc, deleteDoc, getDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
 import { GoogleAuthProvider } from "firebase/auth";
@@ -95,55 +95,28 @@ const deleteFavCharacterById = async (id) => {
 
 const updateCharacterById = async (id, characterUpdate) => {
 
-  deleteCharacterById(id);
-
-  /*
-  console.log(characterUpdate.description)
-
-  if (characterUpdate.name == undefined) {
-    characterUpdate.name = character.name
-  }
-  if (characterUpdate.category == undefined) {
-    characterUpdate.category = character.category
-  }
-  if (characterUpdate.description == undefined) {
-    characterUpdate.description = character.description
-  }
-  if (characterUpdate.image == undefined) {
-    characterUpdate.image = character.image
-  }
-  */
-
-  addCharacter(characterUpdate)
-
-  /*
   const charRef = doc(db, 'characters', id);
   const charDoc = await getDoc(charRef);
   const character = charDoc.data();
-  console.log(charRef)
-  console.log(character)
 
-  
-  character.name = characterUpdate.name;
-  character.category = characterUpdate.category;
-  character.description = characterUpdate.description;
-  character.image = characterUpdate.image;
-  
+  updateDoc(charRef, 
+    {
+      name: characterUpdate.name,
+      category: characterUpdate.category,
+      description: characterUpdate.description,
+      image: characterUpdate.image
+    }
+  )
+  .then(function() {
+    console.log("Documento actualizado");
+  })
+  .catch(function(error) {
+    console.error("Error al actualizar: ", error);
+  });
 
-  
-  await character.update({ uid : characterUpdate.uid });
-  await character.update({ name : characterUpdate.name });
-  await character.update({ category : characterUpdate.category });
-  await character.update({ description : characterUpdate.description });
-  await character.update({ image: characterUpdate.image });
-  
-
-  
   const imageRef = ref(storage, 'images/' + character.image);
   await deleteObject(imageRef);
-
-  uploadImage(characterUpdate.image)
-  */
+  
 }
 
 export {auth, provider, login, register, logout, addCharacter, 
