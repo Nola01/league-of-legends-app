@@ -107,10 +107,10 @@ const updateCharacterById = async (id, characterUpdate) => {
       image: characterUpdate.image
     }
   )
-  .then(function() {
+  .then(() => {
     console.log("Documento actualizado");
   })
-  .catch(function(error) {
+  .catch((error) => {
     console.error("Error al actualizar: ", error);
   });
 
